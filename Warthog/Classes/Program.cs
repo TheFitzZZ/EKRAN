@@ -37,6 +37,9 @@ namespace Warthog
             //Block this program untill it is closed
             await Task.Delay(-1);
         }
+
+    
+
         private static Task Logger(LogMessage lmsg)
         {
             var cc = Console.ForegroundColor;
@@ -61,7 +64,7 @@ namespace Warthog
             Console.ForegroundColor = cc;
             return Task.CompletedTask;
         }
-
+        
         public static void EnsureBotConfigExists()
         {
             if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, "configuration")))
@@ -83,6 +86,7 @@ namespace Warthog
             }
             Console.WriteLine("Configuration has been loaded");
         }
+        
         public IServiceProvider ConfigureServices()
         {
             var services = new ServiceCollection()

@@ -22,8 +22,17 @@ namespace Warthog
             bot.UserLeft += AnnounceLeftUser;
             //Send user message to get handled
             bot.MessageReceived += HandleCommand;
+            bot.Ready += ReadyEvent;
             commands = map.GetService<CommandService>();
         }
+
+        //Set the "playing..." message
+        public async Task ReadyEvent()
+        {
+            await bot.SetGameAsync("Watch EKRAN!");
+        }
+
+        
         public async Task AnnounceLeftUser(SocketGuildUser user)
         {
             var thumbnailurl = user.GetAvatarUrl();

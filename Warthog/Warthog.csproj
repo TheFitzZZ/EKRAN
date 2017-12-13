@@ -137,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\BaseCommands.cs" />
+    <Compile Include="Classes\CalendarEvent.cs" />
     <Compile Include="Classes\CommandHandler.cs" />
     <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\Program.cs" />

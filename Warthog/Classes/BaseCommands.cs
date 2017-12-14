@@ -11,6 +11,12 @@ namespace Warthog.Classes
 {
     public class BaseCommands : ModuleBase
     {
+        private CommandService _service;
+
+        public BaseCommands(CommandService service)           /* Create a constructor for the commandservice dependency */
+        {
+            _service = service;
+        }
 
         //
         // Basic command tests
@@ -138,17 +144,9 @@ namespace Warthog.Classes
             await ReplyAsync("Swaaaag:",false,MyEmbedBuilder);
         }
 
-
         //
         // Actual help commands
         //
-        private CommandService _service;
-
-        public BaseCommands(CommandService service)           /* Create a constructor for the commandservice dependency */
-        {
-            _service = service;
-        }
-
         [Command("help")]
         [Remarks("Shows a list of all available commands per module.")]
         public async Task HelpAsync()
@@ -223,6 +221,33 @@ namespace Warthog.Classes
                 });
             }
             await dmChannel.SendMessageAsync("", false, builder.Build());
+        }
+
+        //
+        // Calendar stuff
+        //
+        [Command("Newevent")]
+        [Alias("newevent", "createevent")]
+        [Summary("Creates a new event")]
+        public async Task Newevent(string sEventName, string sEventDateTime)
+        {
+            // try to adapt what the time is supposed to be
+            DateTime dtEventDateTime = DateTime.Parse(sEventDateTime);
+
+
+            await ReplyAsync("Active: " + true + "\n" +
+                             "Eventname: " + sEventName + "\n" +
+                             "Created Date: " + DateTime.Now + "\n" +
+                             "Eventd Date: " + dtEventDateTime + "\n" +
+                             "Attendees: " + Context.User.Username + "\n" +
+                             "Event creator: " + Context.User.Username );
+
+            CalendarEvent woop = new CalendarEvent();
+            woop.Active = true;
+            woop.Eventname = sEventName;
+            woop.EventDate = dtEventDateTime;
+            woop.EventCreator = Context.User;
+            woop.CreatedDate = DateTime.Now;
         }
     }
 }

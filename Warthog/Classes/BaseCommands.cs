@@ -248,6 +248,11 @@ namespace Warthog.Classes
             woop.EventDate = dtEventDateTime;
             woop.EventCreator = Context.User;
             woop.CreatedDate = DateTime.Now;
+            string[] temp = { "derp", "wupr" };
+            woop.Attendees = temp;
+
+            CalendarEventList.arrEvents.Add(woop);
+
         }
     }
 }

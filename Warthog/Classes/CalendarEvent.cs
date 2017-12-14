@@ -16,4 +16,9 @@ namespace Warthog.Classes
         public IList<IUser> Attendees { get; set; }
         public IUser EventCreator { get; set; }
     }
+
+    public class CalendarEventList
+    {
+        public static List<CalendarEvent> arrEvents = new List<CalendarEvent>();
+    }
 }

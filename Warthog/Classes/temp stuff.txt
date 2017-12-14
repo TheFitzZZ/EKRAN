@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TestApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            DateTime dtEventDateTime = DateTime.Now;
+
+            List<CalendarEvent> arrEvents = new List<CalendarEvent>();
+
+            CalendarEvent woop = new CalendarEvent();
+            woop.Active = true;
+            woop.Eventname = "eventname";
+            woop.EventDate = dtEventDateTime;
+            woop.EventCreator = "User";
+            woop.CreatedDate = DateTime.Now;
+
+            string[] temp = { "derp", "wupr" };
+            woop.Attendees = temp;
+
+            arrEvents.Add(woop);
+
+            CalendarEvent woop2 = new CalendarEvent();
+            woop2.Active = true;
+            woop2.Eventname = "eventname";
+            woop2.EventDate = dtEventDateTime;
+            woop2.EventCreator = "User";
+            woop2.CreatedDate = DateTime.Now;
+
+            string[] temp2 = { "derp", "wupr" };
+            woop2.Attendees = temp2;
+
+            arrEvents.Add(woop2);
+
+            var writer = new System.Xml.Serialization.XmlSerializer(typeof(List<CalendarEvent>));
+            var wfile = new System.IO.StreamWriter(@"c:\temp\SerializationOverview.xml");
+            writer.Serialize(wfile, arrEvents);
+            wfile.Close();
+
+
+
+            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<CalendarEvent>));
+            System.IO.StreamReader file = new System.IO.StreamReader(@"c:\temp\SerializationOverview.xml");
+            List<CalendarEvent> arrEventsRead = (List<CalendarEvent>)reader.Deserialize(file);
+            file.Close();
+        }
+    }
+
+    public class CalendarEvent
+    {
+        public string Eventname { get; set; }
+        public bool Active { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime EventDate { get; set; }
+        public String[] Attendees { get; set; }
+        public string EventCreator { get; set; }
+    }
+}
+

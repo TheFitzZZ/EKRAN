@@ -9,6 +9,7 @@ namespace Warthog.Classes
 {
     public class CalendarEvent
     {
+        public long EventID { get; set; }
         public string Eventname { get; set; }
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }

@@ -226,7 +226,7 @@ namespace Warthog.Classes
                 await Context.Channel.SendMessageAsync("`You do not have enough permissions to manage messages`");
                 return;
             }
-            if (Delete == null)
+            if (Delete == 0)
             {
                 await Context.Channel.SendMessageAsync("`You need to specify the amount | !clear (amount) | Replace (amount) with anything`");
             }
@@ -388,6 +388,7 @@ namespace Warthog.Classes
             if(sPublic != "") { bPublic = true; }
 
             CalendarEvent newevent = new CalendarEvent();
+            newevent.EventID = XMLIntIncrementer.XMLIntIncrement.CalendarEvent;
             newevent.Active = true;
             newevent.Eventname = sEventName;
             newevent.EventDate = dtEventDateTime;
@@ -398,8 +399,11 @@ namespace Warthog.Classes
             newevent.PublicEvent = bPublic;
             newevent.EventGuild = Context.Guild.Id;
 
+            XMLIntIncrementer.XMLIntIncrement.CalendarEvent++;
+
             CalendarXMLManagement.arrEvents.Add(newevent);
             CalendarXMLManagement.CalendarWriteXML();
+            XMLIntIncrementer.IndexWriteXML();
 
             await ReplyAsync("Added new event...");
         }
@@ -457,7 +461,7 @@ namespace Warthog.Classes
         {
             EmbedBuilder MyEmbedBuilder = new EmbedBuilder();
             MyEmbedBuilder.WithColor(new Color(43, 234, 152));
-            MyEmbedBuilder.WithTitle("Event Schedule");
+            MyEmbedBuilder.WithTitle("Planned Events");
 
             MyEmbedBuilder.WithDescription("These are our upcoming events:");
 
@@ -509,7 +513,7 @@ namespace Warthog.Classes
         [Summary("just for me")]
         public async Task Debug(string arg)
         {
-            if(arg == "readxml")
+            if(arg == "readxmlcalendar")
             {
                 CalendarXMLManagement.CalendarReadXML();
                 await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
@@ -517,6 +521,21 @@ namespace Warthog.Classes
             else if(arg == "writexml")
             {
                 CalendarXMLManagement.CalendarWriteXML();
+                //await ReplyAsync("Loaded " + CalendarXMLManagement.arrEvents.Count + " events from file.");
+            }
+            else if (arg == "readxmlindex")
+            {
+                XMLIntIncrementer.IndexReadXML();
+                //await ReplyAsync("Loaded " + CalendarXMLManagement.arrEvents.Count + " events from file.");
+            }
+            else if (arg == "writexmlindex")
+            {
+                XMLIntIncrementer.IndexWriteXML();
+                //await ReplyAsync("Loaded " + CalendarXMLManagement.arrEvents.Count + " events from file.");
+            }
+            else if (arg == "initxmlindex")
+            {
+                XMLIntIncrementer.InitializeIndexXML();
                 //await ReplyAsync("Loaded " + CalendarXMLManagement.arrEvents.Count + " events from file.");
             }
         }

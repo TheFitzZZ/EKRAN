@@ -52,7 +52,7 @@ namespace Warthog.Classes
         public async Task Say4(params String[] array)
         {
             await ReplyAsync("Wow array!");
-            foreach(string word in array)
+            foreach (string word in array)
             {
                 await ReplyAsync(word);
             }
@@ -140,10 +140,157 @@ namespace Warthog.Classes
             MyEmbedField.WithValue("[Youtube](http://www.youtube.com)");
 
             MyEmbedBuilder.AddField(MyEmbedField);
+            MyEmbedBuilder.AddField(MyEmbedField);
+            MyEmbedBuilder.AddField(MyEmbedField);
+            MyEmbedBuilder.AddField(MyEmbedField);
+            MyEmbedBuilder.AddField(MyEmbedField);
+            MyEmbedBuilder.AddField(MyEmbedField);
+            MyEmbedBuilder.AddField(MyEmbedField);
 
-            await ReplyAsync("Swaaaag:",false,MyEmbedBuilder);
+            await ReplyAsync("Swaaaag:", false, MyEmbedBuilder);
         }
 
+        [Command("userinfo")]
+        [Name("userinfo `<user>`")]
+        public async Task UserInfo(IGuildUser user)
+        {
+            var application = await Context.Client.GetApplicationInfoAsync();
+            var thumbnailurl = user.GetAvatarUrl();
+            var date = $"{user.CreatedAt.Month}/{user.CreatedAt.Day}/{user.CreatedAt.Year}";
+            var auth = new EmbedAuthorBuilder()
+
+            {
+
+                Name = user.Username,
+                IconUrl = thumbnailurl,
+
+            };
+
+            var embed = new EmbedBuilder()
+
+            {
+                Color = new Color(29, 140, 209),
+                Author = auth
+            };
+
+            var us = user as SocketGuildUser;
+
+            var D = us.Username;
+
+            var A = us.Discriminator;
+            var T = us.Id;
+            var S = date;
+            var C = us.Status;
+            var CC = us.JoinedAt;
+            var O = us.Game;
+            embed.Title = $"**{us.Username}** Information";
+            embed.Description = $"Username: **{D}**\nDiscriminator: **{A}**\nUser ID: **{T}**\nCreated at: **{S}**\nCurrent Status: **{C}**\nJoined server at: **{CC}**\nPlaying: **{O}**";
+
+            await ReplyAsync("", false, embed.Build());
+        }
+
+        [Command("getuserinfo")]
+        [Alias("getuserinfo")]
+        [Summary("returns user info")]
+        public async Task Say11()
+        {
+            ulong userID = 119019602574442497;
+
+            IUser user = Warthog.Program.client.GetUser(userID);
+            
+            await ReplyAsync(user.Username+"#"+user.Discriminator);
+        }
+
+        [Command("Deleteme")]
+        [Alias("deleteme", "del")]
+        [Summary("Deletes the message of the user")]
+        public async Task Say12()
+        {
+            await DeleteCommandMessage();
+            await ReplyAsync("Pong and gone!");
+        }
+
+        [Command("Clear")]
+        public async Task Clear([Remainder] int Delete = 0)
+        {
+            IGuildUser Bot = await Context.Guild.GetUserAsync(Context.Client.CurrentUser.Id);
+            if (!Bot.GetPermissions(Context.Channel as ITextChannel).ManageMessages)
+            {
+                await Context.Channel.SendMessageAsync("`Bot does not have enough permissions to manage messages`");
+                return;
+            }
+            await Context.Message.DeleteAsync();
+            var GuildUser = await Context.Guild.GetUserAsync(Context.User.Id);
+            if (!GuildUser.GetPermissions(Context.Channel as ITextChannel).ManageMessages)
+            {
+                await Context.Channel.SendMessageAsync("`You do not have enough permissions to manage messages`");
+                return;
+            }
+            if (Delete == null)
+            {
+                await Context.Channel.SendMessageAsync("`You need to specify the amount | !clear (amount) | Replace (amount) with anything`");
+            }
+            int Amount = 0;
+            foreach (var Item in await Context.Channel.GetMessagesAsync(Delete).Flatten())
+            {
+
+                Amount++;
+                await Item.DeleteAsync();
+
+            }
+            await Context.Channel.SendMessageAsync($"`{Context.User.Username} deleted {Amount} messages`");
+        }
+
+        [Command("ServerInfo")]
+        [Alias("sinfo", "servinfo")]
+        [Remarks("Info about a server")]
+        public async Task GuildInfo()
+        {
+            EmbedBuilder embedBuilder;
+            embedBuilder = new EmbedBuilder();
+            embedBuilder.WithColor(new Color(0, 71, 171));
+
+            var gld = Context.Guild as SocketGuild;
+            var client = Context.Client as DiscordSocketClient;
+
+
+            if (!string.IsNullOrWhiteSpace(gld.IconUrl))
+                embedBuilder.ThumbnailUrl = gld.IconUrl;
+            var O = gld.Owner.Username;
+
+            var V = gld.VoiceRegionId;
+            var C = gld.CreatedAt;
+            var N = gld.DefaultMessageNotifications;
+            var VL = gld.VerificationLevel;
+            var XD = gld.Roles.Count;
+            var X = gld.MemberCount;
+            var Z = client.ConnectionState;
+
+            embedBuilder.Title = $"{gld.Name} Server Information";
+            embedBuilder.Description = $"Server Owner: **{O}\n**Voice Region: **{V}\n**Created At: **{C}\n**MsgNtfc: **{N}\n**Verification: **{VL}\n**Role Count: **{XD}\n **Members: **{X}\n **Conntection state: **{Z}\n\n**";
+            await ReplyAsync("", false, embedBuilder);
+        }
+
+
+
+
+        /// 
+        /// Global helper functions
+        /// 
+        public async Task DeleteCommandMessage()
+        {
+            IGuildUser Bot = await Context.Guild.GetUserAsync(Context.Client.CurrentUser.Id);
+            if (!Bot.GetPermissions(Context.Channel as ITextChannel).ManageMessages)
+            {
+                await Context.Channel.SendMessageAsync("`Bot does not have enough permissions to manage messages - Please fix that.`");
+                return;
+            }
+            await Context.Message.DeleteAsync();
+        }
+
+
+
+        
         //
         // Actual help commands
         //
@@ -183,6 +330,10 @@ namespace Warthog.Classes
             await dmChannel.SendMessageAsync("", false, builder.Build()); /* then we send it to the user. */
         }
 
+
+
+
+
         //
         // Detailed help for commands
         //
@@ -201,7 +352,6 @@ namespace Warthog.Classes
                 return;
             }
 
-            string prefix = "!";
             var builder = new EmbedBuilder()
             {
                 Color = new Color(114, 137, 218),
@@ -229,30 +379,147 @@ namespace Warthog.Classes
         [Command("Newevent")]
         [Alias("newevent", "createevent")]
         [Summary("Creates a new event")]
-        public async Task Newevent(string sEventName, string sEventDateTime)
+        public async Task Newevent(string sEventName, string sEventDateTime, string sPublic = "")
         {
             // try to adapt what the time is supposed to be
             DateTime dtEventDateTime = DateTime.Parse(sEventDateTime);
 
+            bool bPublic = false;
+            if(sPublic != "") { bPublic = true; }
 
-            await ReplyAsync("Active: " + true + "\n" +
-                             "Eventname: " + sEventName + "\n" +
-                             "Created Date: " + DateTime.Now + "\n" +
-                             "Eventd Date: " + dtEventDateTime + "\n" +
-                             "Attendees: " + Context.User.Username + "\n" +
-                             "Event creator: " + Context.User.Username );
+            CalendarEvent newevent = new CalendarEvent();
+            newevent.Active = true;
+            newevent.Eventname = sEventName;
+            newevent.EventDate = dtEventDateTime;
+            newevent.EventCreator = Context.User.Id;
+            newevent.CreatedDate = DateTime.Now;
+            ulong[] temp = { 0, 0 };
+            newevent.Attendees = temp;
+            newevent.PublicEvent = bPublic;
+            newevent.EventGuild = Context.Guild.Id;
 
-            CalendarEvent woop = new CalendarEvent();
-            woop.Active = true;
-            woop.Eventname = sEventName;
-            woop.EventDate = dtEventDateTime;
-            woop.EventCreator = Context.User;
-            woop.CreatedDate = DateTime.Now;
-            string[] temp = { "derp", "wupr" };
-            woop.Attendees = temp;
+            CalendarXMLManagement.arrEvents.Add(newevent);
+            CalendarXMLManagement.CalendarWriteXML();
 
-            CalendarEventList.arrEvents.Add(woop);
-
+            await ReplyAsync("Added new event...");
         }
+
+        [Command("Getevents")]
+        [Alias("getevents", "listevents")]
+        [Summary("Lists all events")]
+        public async Task Getevents()
+        {
+            await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
+            foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
+            {
+                if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
+                {
+                    string sType = null;
+                    if (Event.PublicEvent) { sType = "Public"; }
+                    else { sType = "Internal"; }
+
+                    var thumbnailurl = "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png";
+                    var auth = new EmbedAuthorBuilder()
+                    {
+                        Name = Event.Eventname + $" ({sType})",
+                        IconUrl = thumbnailurl,
+                    };
+                    var embed = new EmbedBuilder()
+                    {
+                        Color = new Color(29, 140, 209),
+                        Author = auth
+                    };
+
+                    string sAttendees = "\n";
+                    if (Event.Attendees != null)
+                    {
+                        foreach (ulong userID in Event.Attendees)
+                        {
+                            if (sAttendees != "\n") { sAttendees = sAttendees + ",\n"; }
+                            sAttendees = sAttendees + Warthog.Program.client.GetUser(userID);
+                        }
+                    }
+
+                    embed.Title = "Event information";
+                    embed.Description = $"Event Date: **{Event.EventDate.ToUniversalTime()} UTC**\n" +
+                        $"Attendees: **{sAttendees}**\n" +
+                        $"Event creator: **{Warthog.Program.client.GetUser(Event.EventCreator)}**";
+
+                    await ReplyAsync("", false, embed.Build());
+                }
+            }
+        }
+
+        [Command("Calendar")]
+        [Alias("cal")]
+        [Summary("Lists all events in calendar style")]
+        public async Task Calendar()
+        {
+            EmbedBuilder MyEmbedBuilder = new EmbedBuilder();
+            MyEmbedBuilder.WithColor(new Color(43, 234, 152));
+            MyEmbedBuilder.WithTitle("Event Schedule");
+
+            MyEmbedBuilder.WithDescription("These are our upcoming events:");
+
+            MyEmbedBuilder.WithThumbnailUrl("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png");
+            //MyEmbedBuilder.WithImageUrl("https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png");
+
+            //Footer
+            EmbedFooterBuilder MyFooterBuilder = new EmbedFooterBuilder();
+            MyFooterBuilder.WithText("DM the bot with !help to get a command overview.");
+            MyFooterBuilder.WithIconUrl("https://vignette2.wikia.nocookie.net/mario/images/f/f6/Question_Block_Art_-_New_Super_Mario_Bros.png/revision/latest?cb=20120603213532");
+            MyEmbedBuilder.WithFooter(MyFooterBuilder);
+
+            //Author
+            EmbedAuthorBuilder MyAuthorBuilder = new EmbedAuthorBuilder();
+            MyAuthorBuilder.WithName($"{Context.Guild.Name}'s Schedule");
+            //MyAuthorBuilder.WithUrl("http://www.google.com");
+            MyEmbedBuilder.WithAuthor(MyAuthorBuilder);
+
+            foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
+            {
+                if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
+                {
+                    string sType = null;
+                    if (Event.PublicEvent) { sType = "Public"; }
+                    else { sType = "Internal"; }
+
+              
+                    //EmbedField
+                    EmbedFieldBuilder MyEmbedField = new EmbedFieldBuilder();
+                    MyEmbedField.WithIsInline(true);
+                    MyEmbedField.WithName(Event.Eventname + $" ({sType})");
+                    MyEmbedField.WithValue(
+                        $"Date: **{Event.EventDate.ToShortDateString()} **\n" +
+                        $"Time: **{Event.EventDate.ToShortTimeString()} UTC**\n" +
+                        $"Attendees: **{Event.Attendees.Length}**\n");
+
+                    MyEmbedBuilder.AddField(MyEmbedField);
+                }
+            }
+
+            await ReplyAsync("", false, MyEmbedBuilder);
+        }
+
+        ///
+        /// Debug commands
+        /// 
+        [Command("Debug")]
+        [Alias("debug")]
+        [Summary("just for me")]
+        public async Task Debug(string arg)
+        {
+            if(arg == "readxml")
+            {
+                CalendarXMLManagement.CalendarReadXML();
+                await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
+            }
+            else if(arg == "writexml")
+            {
+                CalendarXMLManagement.CalendarWriteXML();
+                //await ReplyAsync("Loaded " + CalendarXMLManagement.arrEvents.Count + " events from file.");
+            }
+        }
+
     }
 }

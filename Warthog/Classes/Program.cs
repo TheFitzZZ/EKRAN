@@ -14,7 +14,7 @@ namespace Warthog
         public static void Main(string[] args) =>
             new Program().Start().GetAwaiter().GetResult();
 
-        private DiscordSocketClient client;
+        public static DiscordSocketClient client;
         private CommandHandler handler;
 
         public async Task Start()

@@ -18,8 +18,8 @@ namespace Warthog.Classes
             _service = service;
         }
 
-        [Command("Newevent")]
-        [Alias("newevent", "createevent")]
+        [Command("woop")]
+        [Alias("woop", "woop")]
         [Summary("Creates a new event")]
         public async Task Say()
         {

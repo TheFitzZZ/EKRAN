@@ -13,12 +13,9 @@ namespace Warthog.Classes
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EventDate { get; set; }
-        public IList<IUser> Attendees { get; set; }
-        public IUser EventCreator { get; set; }
-    }
-
-    public class CalendarEventList
-    {
-        public static List<CalendarEvent> arrEvents = new List<CalendarEvent>();
+        public ulong[] Attendees { get; set; }
+        public ulong EventCreator { get; set; }
+        public ulong EventGuild { get; set; }
+        public bool PublicEvent { get; set; }
     }
 }

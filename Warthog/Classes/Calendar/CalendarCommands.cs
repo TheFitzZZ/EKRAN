@@ -24,45 +24,35 @@ namespace Warthog.Classes
         [Command("Newevent")]
         [Alias("newevent", "createevent")]
         [Summary("Creates a new event")]
-        public async Task Newevent(string sEventName = "", string sEventDateTime = "", string sPublic = "")
+        public async Task Newevent(string sEventName, string sEventDateTime, string sPublic = "")
         {
-            // Check if parameters are given
-            if (sEventDateTime == "" | sEventName == "")
-            {
-                //Not enough data given, send user info on how to use this
+            // try to adapt what the time is supposed to be
+            DateTime dtEventDateTime = DateTime.Parse(sEventDateTime);
 
-                string helptext = "...";
+            bool bPublic = false;
+            if (sPublic != "") { bPublic = true; }
 
-                var channel = await Context.User.GetOrCreateDMChannelAsync();
-                await channel.SendMessageAsync(helptext);
-            }
-            else
-            {
-                // try to adapt what the time is supposed to be
-                DateTime dtEventDateTime = DateTime.Parse(sEventDateTime);
+            CalendarEvent newevent = new CalendarEvent();
+            newevent.EventID = XMLIntIncrementer.XMLIntIncrement.CalendarEvent;
+            newevent.Active = true;
+            newevent.Eventname = sEventName;
+            newevent.EventDate = dtEventDateTime;
+            newevent.EventCreator = Context.User.Id;
+            newevent.CreatedDate = DateTime.Now;
+            ulong[] temp = { 0, 0 };
+            newevent.Attendees = temp;
+            newevent.PublicEvent = bPublic;
+            newevent.EventGuild = Context.Guild.Id;
 
-                bool bPublic = false;
-                if (sPublic != "") { bPublic = true; }
+            XMLIntIncrementer.XMLIntIncrement.CalendarEvent++;
 
-                CalendarEvent newevent = new CalendarEvent();
-                newevent.Active = true;
-                newevent.Eventname = sEventName;
-                newevent.EventDate = dtEventDateTime;
-                newevent.EventCreator = Context.User.Id;
-                newevent.CreatedDate = DateTime.Now;
-                ulong[] temp = { 0, 0 };
-                newevent.Attendees = temp;
-                newevent.PublicEvent = bPublic;
-                newevent.EventGuild = Context.Guild.Id;
+            CalendarXMLManagement.arrEvents.Add(newevent);
+            CalendarXMLManagement.CalendarWriteXML();
+            XMLIntIncrementer.IndexWriteXML();
 
-                CalendarXMLManagement.arrEvents.Add(newevent);
-                CalendarXMLManagement.CalendarWriteXML();
-
-                await ReplyAsync("Added new event...");
-            }
+            await ReplyAsync("Added new event...");
         }
 
- 
         [Command("Getevents")]
         [Alias("getevents", "listevents")]
         [Summary("Lists all events")]
@@ -116,7 +106,7 @@ namespace Warthog.Classes
         {
             EmbedBuilder MyEmbedBuilder = new EmbedBuilder();
             MyEmbedBuilder.WithColor(new Color(43, 234, 152));
-            MyEmbedBuilder.WithTitle("Event Schedule");
+            MyEmbedBuilder.WithTitle("Planned Events");
 
             MyEmbedBuilder.WithDescription("These are our upcoming events:");
 
@@ -129,33 +119,7 @@ namespace Warthog.Classes
             MyFooterBuilder.WithIconUrl("https://vignette2.wikia.nocookie.net/mario/images/f/f6/Question_Block_Art_-_New_Super_Mario_Bros.png/revision/latest?cb=20120603213532");
             MyEmbedBuilder.WithFooter(MyFooterBuilder);
 
-            //Author
-            EmbedAuthorBuilder MyAuthorBuilder = new EmbedAuthorBuilder();
-            MyAuthorBuilder.WithName($"{Context.Guild.Name}'s Schedule");
-            //MyAuthorBuilder.WithUrl("http://www.google.com");
-            MyEmbedBuilder.WithAuthor(MyAuthorBuilder);
 
-            foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
-            {
-                if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
-                {
-                    string sType = null;
-                    if (Event.PublicEvent) { sType = "Public"; }
-                    else { sType = "Internal"; }
-
-
-                    //EmbedField
-                    EmbedFieldBuilder MyEmbedField = new EmbedFieldBuilder();
-                    MyEmbedField.WithIsInline(true);
-                    MyEmbedField.WithName(Event.Eventname + $" ({sType})");
-                    MyEmbedField.WithValue(
-                        $"Date: **{Event.EventDate.ToShortDateString()} **\n" +
-                        $"Time: **{Event.EventDate.ToShortTimeString()} UTC**\n" +
-                        $"Attendees: **{Event.Attendees.Length}**\n");
-
-                    MyEmbedBuilder.AddField(MyEmbedField);
-                }
-            }
 
             await ReplyAsync("", false, MyEmbedBuilder);
         }

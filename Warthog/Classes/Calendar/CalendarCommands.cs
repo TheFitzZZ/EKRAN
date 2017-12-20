@@ -119,7 +119,32 @@ namespace Warthog.Classes
             MyFooterBuilder.WithIconUrl("https://vignette2.wikia.nocookie.net/mario/images/f/f6/Question_Block_Art_-_New_Super_Mario_Bros.png/revision/latest?cb=20120603213532");
             MyEmbedBuilder.WithFooter(MyFooterBuilder);
 
+            //Author		
+            EmbedAuthorBuilder MyAuthorBuilder = new EmbedAuthorBuilder();
+            MyAuthorBuilder.WithName($"{Context.Guild.Name}'s Schedule");
+            //MyAuthorBuilder.WithUrl("http://www.google.com");		
+            MyEmbedBuilder.WithAuthor(MyAuthorBuilder);
+            
+            foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
+            {
+                if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
+                {
+                    string sType = null;
+                    if (Event.PublicEvent) { sType = "Public"; }
+                    else { sType = "Internal"; }
+                  
+                    //EmbedField		
+                    EmbedFieldBuilder MyEmbedField = new EmbedFieldBuilder();
+                    MyEmbedField.WithIsInline(true);
+                    MyEmbedField.WithName(Event.Eventname + $" ({sType})");
+                    MyEmbedField.WithValue(
+                    $"Date: **{Event.EventDate.ToShortDateString()} **\n" +
+                    $"Time: **{Event.EventDate.ToShortTimeString()} UTC**\n" +
+                    $"Attendees: **{Event.Attendees.Length}**\n");
 
+                    MyEmbedBuilder.AddField(MyEmbedField);
+                }
+            }
 
             await ReplyAsync("", false, MyEmbedBuilder);
         }

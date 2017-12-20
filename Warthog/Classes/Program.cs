@@ -21,6 +21,8 @@ namespace Warthog
         {
             EnsureBotConfigExists(); // Ensure that the bot configuration json file has been created.
 
+            Warthog.Classes.CalendarXMLManagement.CalendarReadXML(); // Load current events
+
             client = new DiscordSocketClient(new DiscordSocketConfig()
             {
                 LogLevel = LogSeverity.Verbose,

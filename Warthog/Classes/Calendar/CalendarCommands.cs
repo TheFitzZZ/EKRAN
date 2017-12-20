@@ -18,6 +18,7 @@ namespace Warthog.Classes
             _service = service;
         }
 
+
         /// 
         /// Global helper functions (exist in every command module until I know how to seperate them)
         /// 

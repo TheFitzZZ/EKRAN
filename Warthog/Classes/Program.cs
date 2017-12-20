@@ -22,6 +22,7 @@ namespace Warthog
             EnsureBotConfigExists(); // Ensure that the bot configuration json file has been created.
 
             Warthog.Classes.CalendarXMLManagement.CalendarReadXML(); // Load current events
+            Warthog.Classes.XMLIntIncrementer.InitializeIndexXML(); // Load current indexs
 
             client = new DiscordSocketClient(new DiscordSocketConfig()
             {

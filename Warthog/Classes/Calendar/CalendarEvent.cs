@@ -14,7 +14,7 @@ namespace Warthog.Classes
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EventDate { get; set; }
-        public ulong[] Attendees { get; set; }
+        public List<ulong> Attendees { get; set; }
         public ulong EventCreator { get; set; }
         public ulong EventGuild { get; set; }
         public bool PublicEvent { get; set; }

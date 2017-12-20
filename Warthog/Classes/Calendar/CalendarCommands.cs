@@ -39,7 +39,7 @@ namespace Warthog.Classes
         [Command("Newevent")]
         [Alias("newevent", "createevent")]
         [Summary("Creates a new event")]
-        public async Task Newevent(string sEventName = "", string sEventDateTime = "", string sPublic = "")
+        public async Task Newevent(string sEventName = "", string sEventDateTime = "", string sPublic = "", string sBriefingURL = "")
         {
             if (sEventDateTime == "" | sEventName == "")
             {
@@ -85,6 +85,155 @@ namespace Warthog.Classes
                 XMLIntIncrementer.IndexWriteXML();
 
                 await ReplyAsync("Added new event with ID " + newevent.EventID);
+
+                string helptext = "You can add more details to the event if you like:\n" +
+                                  "\nAdd a max attendee limit: " +
+                                  "\nAdd a URL to a briefing: " +
+                                  "\nAdd a URL to a Discord invite: " +
+                                  "\nAdd a short description to the event: " +
+                                  "\nToggle public flag of the event: " +
+                                  "\nEdit the event name: " +
+                                  "\nEdit the event date: ";
+
+                var channel = await Context.User.GetOrCreateDMChannelAsync();
+                await channel.SendMessageAsync(helptext);
+            }
+        }
+
+        [Command("editevent")]
+        [Alias("eev", "editev")]
+        [Summary("Let's you edit details of an event")]
+        public async Task Editevent(int iID = 0, string sCommand = "", string sData = "")
+        {
+            var channel = await Context.User.GetOrCreateDMChannelAsync();
+
+            if ((sData == "" | iID == 0 | sCommand == "") & !(sCommand == "public") )
+            {
+                //Not enough data given, send user info on how to use this
+                string helptext = "Not enough parameters! Please state ...";
+                
+                await channel.SendMessageAsync(helptext);
+            }
+            //else if (Context.Guild == null)
+            //{
+            //    //Text was send by DM, not supported
+            //    string helptext = "Please use this command in a text channel of your server, not via DM.";
+
+            //    await channel.SendMessageAsync(helptext);
+            //}
+            else
+            {
+                foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
+                {
+                    if (Event.EventID == iID)
+                    {
+                        if (!Event.EventCreator.Equals(Context.User.Id))
+                        {
+                            // Secrurity check
+                            await ReplyAsync("This is not your event, you cannot edit it!");
+                            return;
+                        }
+                        else
+                        {
+                            // Go through the different options
+                            switch (sCommand)
+                            {
+                                case "public":
+                                    string sTemp = "";
+                                    if (Event.PublicEvent)
+                                    {
+                                        Event.PublicEvent = false;
+                                        sTemp = "internal";
+                                    }
+                                    else
+                                    {
+                                        Event.PublicEvent = true;
+                                        sTemp = "public";
+                                    }
+
+                                    CalendarXMLManagement.CalendarWriteXML();
+                                    await channel.SendMessageAsync($"The event {Event.EventID} is now {sTemp}.");
+                                    return;
+
+                                case "briefingurl":
+                                    //check url
+                                    Uri uriResult;
+                                    bool result = Uri.TryCreate(sData, UriKind.Absolute, out uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                                    if(result)
+                                    {
+                                        Event.BriefingURL = sData;
+                                        await channel.SendMessageAsync($"The event {Event.EventID} briefing URL is now {sData}.");
+                                        CalendarXMLManagement.CalendarWriteXML();
+                                    }
+                                    else
+                                    {
+                                        await channel.SendMessageAsync($"Invalid URL!");
+                                    }
+                                    return;
+
+                                case "discordurl":
+                                    //check url
+                                    Uri uriResult2;
+                                    bool result2 = Uri.TryCreate(sData, UriKind.Absolute, out uriResult2) && (uriResult2.Scheme == Uri.UriSchemeHttp || uriResult2.Scheme == Uri.UriSchemeHttps);
+                                    if (result2)
+                                    {
+                                        Event.DiscordURL = sData;
+                                        await channel.SendMessageAsync($"The event {Event.EventID} Discord URL is now {sData}.");
+                                        CalendarXMLManagement.CalendarWriteXML();
+                                    }
+                                    else
+                                    {
+                                        await channel.SendMessageAsync($"Invalid URL!");
+                                    }
+                                    return;
+
+                                case "maxattendees":
+                                    //check data
+                                    int MAResult = 0;
+                                    if(!int.TryParse(sData, out MAResult))
+                                    {
+                                        await channel.SendMessageAsync($"Invalid number!");
+                                    }
+                                    else
+                                    {
+                                        Event.MaxAttendees = MAResult;
+                                        await channel.SendMessageAsync($"The event {Event.EventID} has now {MAResult} max attendees set.");
+                                        CalendarXMLManagement.CalendarWriteXML();
+                                    }
+                                    return;
+
+                                case "date":
+                                    //check data
+                                    DateTime DateResult = new DateTime();
+                                    if (!DateTime.TryParse(sData, out DateResult))
+                                    {
+                                        await channel.SendMessageAsync(@"Invalid date / time! Try it like this (with quote!): ""2018-12-24 14:56""");
+                                    }
+                                    else
+                                    {
+                                        Event.EventDate = DateResult;
+                                        await channel.SendMessageAsync($"The event {Event.EventID} has now {DateResult} as the date/time set.");
+                                        CalendarXMLManagement.CalendarWriteXML();
+                                    }
+                                    return;
+
+                                case "name":
+                                    Event.Eventname = sData;
+                                    await channel.SendMessageAsync($"The event {Event.EventID} has now the following name: {sData}");
+                                    CalendarXMLManagement.CalendarWriteXML();
+                                    return;
+
+                                case "description":
+                                    Event.Eventdescription = sData;
+                                    await channel.SendMessageAsync($"The event {Event.EventID} has now the following name: {sData}");
+                                    CalendarXMLManagement.CalendarWriteXML();
+                                    return;
+
+                            }
+                        }
+                    }
+                }
+                await ReplyAsync("Event not found!");
             }
         }
 
@@ -138,7 +287,7 @@ namespace Warthog.Classes
         [Command("attend")]
         [Alias("aev", "attendevent", "addme")]
         [Summary("Adds you to the attendee list of an")]
-        public async Task Attendevent(long iID = 0)
+        public async Task Attendevent(long iID = 0, string sPlayer = "")
         {
             if (iID == 0)
             {
@@ -167,6 +316,23 @@ namespace Warthog.Classes
                             await ReplyAsync("Your participation has already been added to the event!");
                             return;
                         }
+                        else if (sPlayer != "" & Event.EventCreator == Context.User.Id)
+                        {
+                            //foreach (ulong Attendee in Event.Attendees)
+                            //{
+                            //    IUser user = Warthog.Program.client.GetUser(Attendee);
+                            //    string sFullname = user.Username + "#" + user.Discriminator;
+                            //    if (sFullname == sPlayer)
+                            //    {
+                            //        Event.Attendees.Remove(user.Id);
+                            //        CalendarXMLManagement.CalendarWriteXML();
+                            //        await ReplyAsync($"{user.Username} has been removed from the event!");
+                            //        return;
+                            //    }
+                            //}
+                            await ReplyAsync($"Adding other users not implemented yet. Please tell FitzZZ that you'd like to see this feature.");
+                            return;
+                        }
                         else
                         { 
                             // Check if the source of the request comes from the same server as the event was created
@@ -175,6 +341,13 @@ namespace Warthog.Classes
                                 Event.Attendees.Add(Context.User.Id);
                                 CalendarXMLManagement.CalendarWriteXML();
                                 await ReplyAsync("Your participation has been added to the event!");
+
+                                //warn if over max attendees
+                                if(Event.Attendees.Count > Event.MaxAttendees)
+                                {
+                                    await ReplyAsync("Please be aware that the event has no more free slots! You're added to the list anyway, but keep in mind that the event creator might not let you participate.");
+                                }
+
                                 return;
                             }
                             else
@@ -185,15 +358,14 @@ namespace Warthog.Classes
                         }
                     }
                 }
-
                 await ReplyAsync("Event not found!");
             }
         }
 
         [Command("cancel")]
-        [Alias("cev", "cancelevent", "removeme")]
+        [Alias("cev", "cancelevent", "removeme", "removeplayer")]
         [Summary("Removes you from the attendee list of an event")]
-        public async Task Cancelevent(long iID = 0)
+        public async Task Cancelevent(long iID = 0, string sPlayer = "")
         {
             if (iID == 0)
             {
@@ -217,12 +389,29 @@ namespace Warthog.Classes
                 {
                     if (Event.EventID == iID)
                     {
-                        if (Event.Attendees.Contains(Context.User.Id))
+                        if (Event.Attendees.Contains(Context.User.Id) & sPlayer == "")
                         {
                             Event.Attendees.Remove(Context.User.Id);
                             CalendarXMLManagement.CalendarWriteXML();
                             await ReplyAsync("Your participation has been removed from the event!");
                             return;
+                        }
+                        else if (sPlayer != "" & Event.EventCreator == Context.User.Id)
+                        {
+                            foreach (ulong Attendee in Event.Attendees)
+                            {
+                                IUser user = Warthog.Program.client.GetUser(Attendee);
+                                string sFullname = user.Username + "#" + user.Discriminator;
+                                if(sFullname == sPlayer)
+                                {
+                                    Event.Attendees.Remove(user.Id);
+                                    CalendarXMLManagement.CalendarWriteXML();
+                                    await ReplyAsync($"{user.Username} has been removed from the event!");
+                                    return;
+                                }
+                            }
+                            await ReplyAsync($"{sPlayer} was not found!");
+                            return;                           
                         }
                         else
                         {
@@ -236,8 +425,8 @@ namespace Warthog.Classes
             }
         }
 
-        [Command("Getevents")]
-        [Alias("getevents", "listevents")]
+        [Command("getevents")]
+        [Alias("listevents")]
         [Summary("Lists all events")]
         public async Task Getevents()
         {
@@ -249,7 +438,7 @@ namespace Warthog.Classes
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
             }
-            else 
+            else
             {
                 await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
                 foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
@@ -283,11 +472,24 @@ namespace Warthog.Classes
                         }
 
                         embed.Title = "Event information";
-                        embed.Description = $"Event Date: **{Event.EventDate.ToUniversalTime()} UTC**\n" +
-                            $"Attendees: **{sAttendees}**\n" +
+
+                        string sEmbedDescription = $"Event Date: **{Event.EventDate.ToUniversalTime()} UTC**\n";
+                        sEmbedDescription += $"Attendees: **{sAttendees}**\n";
+
+                        if (Event.MaxAttendees == 0)
+                        {
+                            sEmbedDescription += $"Attendees ({Event.Attendees.Count}): **{sAttendees}**\n";
+                        }
+                        else
+                        {
+                            sEmbedDescription += $"Attendees ({Event.Attendees.Count}/{Event.MaxAttendees}): **{sAttendees}**\n";
+                        }
+
+                        sEmbedDescription +=  
                             $"Event creator: **{Warthog.Program.client.GetUser(Event.EventCreator)}**\n" +
                             $"Event ID: **{Event.EventID}**";
 
+                        embed.Description = sEmbedDescription;
                         await ReplyAsync("", false, embed.Build());
                     }
                 }
@@ -348,6 +550,15 @@ namespace Warthog.Classes
                         $"Time: **{Event.EventDate.ToShortTimeString()} UTC**\n" +
                         $"Attendees: **{Event.Attendees.Count}**\n" +
                         $"ID: **{Event.EventID}**\n");
+
+                        //if (Event.MaxAttendees == 0)
+                        //{
+                        //    sEmbedDescription += $"Attendees: **{sAttendees}**\n";
+                        //}
+                        //else
+                        //{
+                        //    sEmbedDescription += $"Attendees: **{sAttendees}/{E}**\n";
+                        //}
 
                         MyEmbedBuilder.AddField(MyEmbedField);
                     }

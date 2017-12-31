@@ -29,7 +29,7 @@ namespace Warthog
         //Set the "playing..." message
         public async Task ReadyEvent()
         {
-            await bot.SetGameAsync("Watch EKRAN!");
+            await bot.SetGameAsync("календарь!");
         }
 
         

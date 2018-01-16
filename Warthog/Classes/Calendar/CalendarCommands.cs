@@ -87,14 +87,14 @@ namespace Warthog.Classes
 
                 await ReplyAsync("Added new event with ID " + newevent.EventID);
 
-                string helptext = "You can add more details to the event if you like:\n" +
-                                  "\nAdd a max attendee limit: " +
-                                  "\nAdd a URL to a briefing: " +
-                                  "\nAdd a URL to a Discord invite: " +
-                                  "\nAdd a short description to the event: " +
-                                  "\nToggle public flag of the event: " +
-                                  "\nEdit the event name: " +
-                                  "\nEdit the event date: ";
+                string helptext = "You can add more details to the event if you like:\n\n" +
+                                  "\nAdd a max attendee limit: !editev *eventid* **maxattendees** 15" +
+                                  "\nAdd a URL to a briefing: !editev *eventid* **briefingurl** http://someurl.com/briefing" +
+                                  "\nAdd a URL to a Discord invite: !editev *eventid* **discordurl** http://discord.gg/yourinviteid \n" +
+                                  @"Add a short description to the event: !editev *eventid* **description** ""Description goes here""" +
+                                  "\nToggle public flag of the event: !editev *eventid* **public** \n" +
+                                  @"\nEdit the event name: !editev *eventid* **name** ""My Eventname""" +
+                                  @"\nEdit the event date: !editev *eventid* **date** ""2018-12-24 13:37""";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -226,7 +226,7 @@ namespace Warthog.Classes
 
                                 case "description":
                                     Event.Eventdescription = sData;
-                                    await channel.SendMessageAsync($"The event {Event.EventID} has now the following name: {sData}");
+                                    await channel.SendMessageAsync($"The event {Event.EventID} has now the following description: {sData}");
                                     CalendarXMLManagement.CalendarWriteXML();
                                     return;
 

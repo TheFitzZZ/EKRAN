@@ -37,10 +37,10 @@ namespace Warthog.Classes
         //
         // Calendar stuff
         //
-        [Command("Newevent")]
-        [Alias("newevent", "createevent")]
+        [Command("newevent")]
+        [Alias("nev", "createevent")]
         [Summary("Creates a new event")]
-        public async Task Newevent(string sEventName = "", string sEventDateTime = "", string sPublic = "", string sBriefingURL = "")
+        public async Task Newevent(string sEventName = "", string sEventDateTime = "")
         {
             if (sEventDateTime == "" | sEventName == "")
             {
@@ -63,8 +63,8 @@ namespace Warthog.Classes
                 // try to adapt what the time is supposed to be
                 DateTime dtEventDateTime = DateTime.Parse(sEventDateTime);
 
-                bool bPublic = false;
-                if (sPublic != "") { bPublic = true; }
+                //bool bPublic = false;
+                //if (sPublic != "") { bPublic = true; }
 
                 CalendarEvent newevent = new CalendarEvent();
                 newevent.EventID = XMLIntIncrementer.XMLIntIncrement.CalendarEvent;
@@ -76,7 +76,7 @@ namespace Warthog.Classes
                 List<ulong> temp = new List<ulong>();
                 temp.Add(Context.User.Id);
                 newevent.Attendees = temp;
-                newevent.PublicEvent = bPublic;
+                newevent.PublicEvent = false;
                 newevent.EventGuild = Context.Guild.Id;
 
                 XMLIntIncrementer.XMLIntIncrement.CalendarEvent++;
@@ -92,9 +92,9 @@ namespace Warthog.Classes
                                   "\nAdd a URL to a briefing: !editev *eventid* **briefingurl** http://someurl.com/briefing" +
                                   "\nAdd a URL to a Discord invite: !editev *eventid* **discordurl** http://discord.gg/yourinviteid \n" +
                                   @"Add a short description to the event: !editev *eventid* **description** ""Description goes here""" +
-                                  "\nToggle public flag of the event: !editev *eventid* **public** \n" +
-                                  @"\nEdit the event name: !editev *eventid* **name** ""My Eventname""" +
-                                  @"\nEdit the event date: !editev *eventid* **date** ""2018-12-24 13:37""";
+                                  "\nToggle public flag of the event: !editev *eventid* **public**" +
+                                  "\n" + @"Edit the event name: !editev *eventid* **name** ""My Eventname""" +
+                                  "\n" + @"Edit the event date: !editev *eventid* **date** ""2018-12-24 13:37""";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -111,7 +111,7 @@ namespace Warthog.Classes
             if ((sData == "" | iID == 0 | sCommand == "") & !(sCommand == "public") )
             {
                 //Not enough data given, send user info on how to use this
-                string helptext = "Not enough parameters! Please state ...";
+                string helptext = "Not enough parameters! Please use !help to... well, get help!";
                 
                 await channel.SendMessageAsync(helptext);
             }
@@ -268,10 +268,19 @@ namespace Warthog.Classes
                         // Check if the source of the request comes from the same server as the event was created
                         if (Event.EventGuild == Context.Guild.Id)
                         {
-                            CalendarXMLManagement.arrEvents.Remove(Event);
-                            CalendarXMLManagement.CalendarWriteXML();
-                            await ReplyAsync("Event removed!");
-                            return;
+                            if (!Event.EventCreator.Equals(Context.User.Id))
+                            {
+                                // Secrurity check
+                                await ReplyAsync("This is not your event, you cannot delete it!");
+                                return;
+                            }
+                            else
+                            {
+                                CalendarXMLManagement.arrEvents.Remove(Event);
+                                CalendarXMLManagement.CalendarWriteXML();
+                                await ReplyAsync("Event removed!");
+                                return;
+                            }
                         }
                         else
                         {
@@ -363,15 +372,15 @@ namespace Warthog.Classes
             }
         }
 
-        [Command("cancel")]
-        [Alias("cev", "cancelevent", "removeme", "removeplayer")]
+        [Command("skip")]
+        [Alias("sev", "skipevent", "removeme", "removeplayer")]
         [Summary("Removes you from the attendee list of an event")]
-        public async Task Cancelevent(long iID = 0, string sPlayer = "")
+        public async Task Skipevent(long iID = 0, string sPlayer = "")
         {
             if (iID == 0)
             {
                 //Not enough data given, send user info on how to use this
-                string helptext = "Not enough parameters! Please state the ID of the event to delete \nExample: \n!removeme 1337";
+                string helptext = "Not enough parameters! Please state the ID of the event to delete \nExample: \n!skipevent 1337";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -427,7 +436,7 @@ namespace Warthog.Classes
         }
 
         [Command("getevents")]
-        [Alias("listevents")]
+        [Alias("listevents", "gev", "lev", "events")]
         [Summary("Lists all events")]
         public async Task Getevents()
         {
@@ -441,7 +450,7 @@ namespace Warthog.Classes
             }
             else
             {
-                await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
+                //await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
                 foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
                 {
                     if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
@@ -463,27 +472,27 @@ namespace Warthog.Classes
                         };
 
                         string sAttendees = "\n";
-                        if (Event.Attendees != null)
-                        {
-                            foreach (ulong userID in Event.Attendees)
-                            {
-                                if (sAttendees != "\n") { sAttendees = sAttendees + ",\n"; }
-                                sAttendees = sAttendees + Warthog.Program.client.GetUser(userID);
-                            }
-                        }
+                        //if (Event.Attendees != null)
+                        //{
+                        //    foreach (ulong userID in Event.Attendees)
+                        //    {
+                        //        if (sAttendees != "\n") { sAttendees = sAttendees + ",\n"; }
+                        //        sAttendees = sAttendees + Warthog.Program.client.GetUser(userID);
+                        //    }
+                        //}
 
                         embed.Title = "Event information";
 
                         string sEmbedDescription = $"Event Date: **{Event.EventDate.ToUniversalTime()} UTC**\n";
-                        sEmbedDescription += $"Attendees: **{sAttendees}**\n";
+                        //sEmbedDescription += $"Attendees: **{sAttendees}**\n";
 
                         if (Event.MaxAttendees == 0)
                         {
-                            sEmbedDescription += $"Attendees ({Event.Attendees.Count}): **{sAttendees}**\n";
+                            sEmbedDescription += $"Attendees: {Event.Attendees.Count}\n";
                         }
                         else
                         {
-                            sEmbedDescription += $"Attendees ({Event.Attendees.Count}/{Event.MaxAttendees}): **{sAttendees}**\n";
+                            sEmbedDescription += $"Attendees: {Event.Attendees.Count}/{Event.MaxAttendees}\n";
                         }
 
                         sEmbedDescription +=  
@@ -494,7 +503,98 @@ namespace Warthog.Classes
                         await ReplyAsync("", false, embed.Build());
                     }
                 }
+                await ReplyAsync("You can get more information on an event by using !event *eventid*");
             }
+        }
+
+        [Command("event")]
+        [Alias("ev")]
+        [Summary("Lists all events")]
+        public async Task Event(long iID)
+        {
+            //await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
+
+            if (iID == 0)
+            {
+                //Not enough data given, send user info on how to use this
+                string helptext = "Not enough parameters! Please state the ID of the event to delete \nExample: \n!addme 1337";
+
+                var channel = await Context.User.GetOrCreateDMChannelAsync();
+                await channel.SendMessageAsync(helptext);
+            }
+            else if (Context.Guild == null)
+            {
+                //Text was send by DM, not supported
+                string helptext = "Please use this command in a text channel of your server, not via DM.";
+
+                var channel = await Context.User.GetOrCreateDMChannelAsync();
+                await channel.SendMessageAsync(helptext);
+            }
+            else
+            {
+                foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
+                {
+                    if (Event.EventID == iID)
+                    {
+                        if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
+                        {
+                            string sType = null;
+                            if (Event.PublicEvent) { sType = "Public"; }
+                            else { sType = "Internal"; }
+
+                            var thumbnailurl = "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/calendar-512.png";
+                            var auth = new EmbedAuthorBuilder()
+                            {
+                                Name = Event.Eventname + $" ({sType})",
+                                IconUrl = thumbnailurl,
+                            };
+                            var embed = new EmbedBuilder()
+                            {
+                                Color = new Color(29, 140, 209),
+                                Author = auth
+                            };
+
+                            string sAttendees = "\n";
+                            if (Event.Attendees != null)
+                            {
+                                foreach (ulong userID in Event.Attendees)
+                                {
+                                    if (sAttendees != "\n") { sAttendees = sAttendees + ",\n"; }
+                                    sAttendees = sAttendees + Warthog.Program.client.GetUser(userID);
+                                }
+                            }
+
+                            embed.Title = "Event information";
+
+                            string sEmbedDescription = $"Event Date: **{Event.EventDate.ToUniversalTime()} UTC**\n";
+                            //sEmbedDescription += $"Attendees: **{sAttendees}**\n";
+
+                            if (Event.MaxAttendees == 0)
+                            {
+                                sEmbedDescription += $"Attendees ({Event.Attendees.Count}): **{sAttendees}**\n";
+                            }
+                            else
+                            {
+                                sEmbedDescription += $"Attendees ({Event.Attendees.Count}/{Event.MaxAttendees}): **{sAttendees}**\n";
+                            }
+
+                            sEmbedDescription +=
+                                $"Description: **{Event.Eventdescription}**\n" + 
+                                $"Briefing: **{Event.BriefingURL}**\n" +
+                                $"Discord: **{Event.DiscordURL}**\n" +
+                                $"Event creator: **{Warthog.Program.client.GetUser(Event.EventCreator)}**\n" +
+                                $"Event ID: **{Event.EventID}**";
+                            
+
+                            embed.Description = sEmbedDescription;
+                            await ReplyAsync("", false, embed.Build());
+                        }
+                    }
+                }
+            }
+
+            
+            
         }
 
         [Command("Calendar")]
@@ -524,7 +624,7 @@ namespace Warthog.Classes
 
                 //Footer
                 EmbedFooterBuilder MyFooterBuilder = new EmbedFooterBuilder();
-                MyFooterBuilder.WithText("DM the bot with !help to get a command overview.");
+                MyFooterBuilder.WithText("You can get more information on an event by using !event *eventid* -- DM the bot with !help to get a command overview.");
                 MyFooterBuilder.WithIconUrl("https://vignette2.wikia.nocookie.net/mario/images/f/f6/Question_Block_Art_-_New_Super_Mario_Bros.png/revision/latest?cb=20120603213532");
                 MyEmbedBuilder.WithFooter(MyFooterBuilder);
 

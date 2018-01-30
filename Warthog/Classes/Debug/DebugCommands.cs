@@ -22,7 +22,7 @@ namespace Warthog.Classes
         /// Global helper functions (exist in every command module until I know how to seperate them)
         /// 
         public async Task DeleteCommandMessage()
-        {
+        {            
             IGuildUser Bot = await Context.Guild.GetUserAsync(Context.Client.CurrentUser.Id);
             if (!Bot.GetPermissions(Context.Channel as ITextChannel).ManageMessages)
             {
@@ -40,6 +40,12 @@ namespace Warthog.Classes
         [Summary("just for me")]
         public async Task Debug(string arg)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             if (arg == "readxmlcalendar")
             {
                 CalendarXMLManagement.CalendarReadXML();
@@ -77,6 +83,12 @@ namespace Warthog.Classes
         [Summary("Returns a pong")]
         public async Task Say()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             await ReplyAsync("Pong!");
         }
 
@@ -85,6 +97,12 @@ namespace Warthog.Classes
         [Summary("Returns you the number you chose")]
         public async Task Say2(int arg = 0)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             await ReplyAsync("Your number is: " + arg);
         }
 
@@ -93,6 +111,12 @@ namespace Warthog.Classes
         [Summary("Returns you user you gave me")]
         public async Task Say3(IUser user)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             await ReplyAsync("Your user is: " + user.Mention);
         }
 
@@ -101,6 +125,12 @@ namespace Warthog.Classes
         [Summary("Returns the array you gave me")]
         public async Task Say4(params String[] array)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             await ReplyAsync("Wow array!");
             foreach (string word in array)
             {
@@ -113,6 +143,12 @@ namespace Warthog.Classes
         [Summary("If you want the parameter to parse untill the end of the command")]
         public async Task Say5([Remainder] String text)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             await ReplyAsync("Wow remainder: " + text);
         }
 
@@ -122,6 +158,12 @@ namespace Warthog.Classes
         [Summary("returns said sentence!")]
         public async Task Say6(IUser user)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             var channel = await user.GetOrCreateDMChannelAsync();
             await channel.SendMessageAsync("The message here");
         }
@@ -132,6 +174,12 @@ namespace Warthog.Classes
         [Summary("returns said sentence!")]
         public async Task Say7()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             var channel = await Context.User.GetOrCreateDMChannelAsync();
             await channel.SendMessageAsync("The message here");
         }
@@ -141,6 +189,12 @@ namespace Warthog.Classes
         [Summary("returns said sentence!")]
         public async Task Say8()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             var channel = await Context.Guild.GetChannelAsync(386545965374373898) as SocketTextChannel;
             await channel.SendMessageAsync("Woops");
         }
@@ -150,6 +204,12 @@ namespace Warthog.Classes
         [Summary("returns viruz lulz!")]
         public async Task Say9()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             //await Context.Channel.SendFileAsync(file);
             await ReplyAsync("Fix me");
         }
@@ -159,6 +219,12 @@ namespace Warthog.Classes
         [Summary("returns embed yo")]
         public async Task Say10()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             EmbedBuilder MyEmbedBuilder = new EmbedBuilder();
             MyEmbedBuilder.WithColor(new Color(43, 234, 152));
             MyEmbedBuilder.WithTitle("Your title");
@@ -204,6 +270,12 @@ namespace Warthog.Classes
         [Name("userinfo `<user>`")]
         public async Task UserInfo(IGuildUser user)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             var application = await Context.Client.GetApplicationInfoAsync();
             var thumbnailurl = user.GetAvatarUrl();
             var date = $"{user.CreatedAt.Month}/{user.CreatedAt.Day}/{user.CreatedAt.Year}";
@@ -244,6 +316,12 @@ namespace Warthog.Classes
         [Summary("returns user info")]
         public async Task Say11()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             ulong userID = 119019602574442497;
 
             IUser user = Warthog.Program.client.GetUser(userID);
@@ -256,6 +334,12 @@ namespace Warthog.Classes
         [Summary("Deletes the message of the user")]
         public async Task Say12()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             await DeleteCommandMessage();
             await ReplyAsync("Pong and gone!");
         }
@@ -263,6 +347,12 @@ namespace Warthog.Classes
         [Command("Clear")]
         public async Task Clear([Remainder] int Delete = 0)
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             IGuildUser Bot = await Context.Guild.GetUserAsync(Context.Client.CurrentUser.Id);
             if (!Bot.GetPermissions(Context.Channel as ITextChannel).ManageMessages)
             {
@@ -296,6 +386,12 @@ namespace Warthog.Classes
         [Remarks("Info about a server")]
         public async Task GuildInfo()
         {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
             EmbedBuilder embedBuilder;
             embedBuilder = new EmbedBuilder();
             embedBuilder.WithColor(new Color(0, 71, 171));

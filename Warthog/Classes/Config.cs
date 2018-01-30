@@ -17,12 +17,12 @@ namespace Warthog.Config
             Token = "";
         }
 
-        public void Save(string dir = "configuration/config.json")
+        public void Save(string dir = "configuration\\config.json")
         {
             string file = Path.Combine(appdir, dir);
             File.WriteAllText(file, ToJson());
         }
-        public static BotConfig Load(string dir = "configuration/config.json")
+        public static BotConfig Load(string dir = "configuration\\config.json")
         {
             string file = Path.Combine(appdir, dir);
             return JsonConvert.DeserializeObject<BotConfig>(File.ReadAllText(file));

@@ -31,13 +31,91 @@ namespace Warthog.Classes
             }
             await Context.Message.DeleteAsync();
         }
-                
+
         //
         // Actual help commands
         //
         [Command("help")]
         [Remarks("Shows a list of all available commands per module.")]
         public async Task HelpAsync()
+        {
+            var dmChannel = await Context.User.GetOrCreateDMChannelAsync(); /* A channel is created so that the commands will be privately sent to the user, and not flood the chat. */
+
+            string helptext = "```These are the commands you can use: \n\n" +
+                                "Show event calendar \n" +
+
+                "Command: !calendar (!cal) \n" +
+                "Parameters: none \n" +
+                "Examples: !calendar \n" +
+                "Description: Gives a compact list of upcoming events for your server. \n" +
+                " \n" +
+                "Show event details \n" +
+                "Command: !event (!cev) \n" +
+                "Parameters: eventID \n" +
+                "Examples: !event 5 \n" +
+                "Description: Gives all details about the event given. \n" +
+                " \n" +
+                "Attend event \n" +
+                "Command: !attend  \n" +
+                "Parameters: eventID  \n" +
+                "Examples: !aev 3 \n" +
+                "Description: Put's you on the list of attendees for the event. \n" +
+                " \n" +
+                "Skip event (aka remove your attendence) \n" +
+                "Command: !skip  \n" +
+                "Parameters: eventID  \n" +
+                "Examples: !sev 3 \n" +
+                "Description: Removes you from the given event. \n" +
+                " \n" +
+                "Show event list \n" +
+                "Command: !getevents (or !gev) \n" +
+                "Parameters: none  \n" +
+                "Examples: !getevents  \n" +
+                "Description: Gives a list of all upcoming events for your server. \n" +
+                "```";
+
+            var channel = await Context.User.GetOrCreateDMChannelAsync();
+            await channel.SendMessageAsync(helptext);
+
+            helptext = "```Commands for event creators \n" +
+                "New event \n" +
+                "Command: !newevent (or !nev)  \n" +
+                "Parameters: \"Name\" \"Date Time\"  \n" +
+                "Examples: !newevent \"My Event Name\" \"2018 - 12 - 24 13:37\" \n" +
+                    "Description: Creates a new event with the given name and date+time. If the name has more than one word, it needs to be put in quotation marks. Date and time is entered in the format \"YYYY - MM - DD HH: MM\" in the 24h format with quotation marks. There is no timezone conversion (yet), so use UTC or the favorite TZ of your server. \n" +
+                         " \n" +
+                         "After you create an event, the bot will tell you the assigned ID and send you a DM explaining how you can edit & enhance it with more information. \n" +
+                         " \n" +
+                         "Edit event \n" +
+                         "Command: !editevent (or !eev) \n" +
+                         "Parameters: several :-) \n" +
+                         " \n" +
+                         "Add a max attendee limit: !editev eventid maxattendees 15 \n" +
+                         "Add a URL to a briefing: !editev eventid briefingurl http://someurl.com/briefing \n" +
+                         "Add a URL to a Discord invite: !editev eventid discordurl http://disc0rd.gg/yourinviteid \n" +
+                         "Add a short description to the event: !editev eventid description \"Description goes here\" \n" +
+                         "Toggle public flag of the event: !editev eventid public \n" +
+                "Edit the event name: !editev eventid name \"My Eventname\" \n" +
+                "Edit the event date: !editev eventid date \"2018 - 12 - 24 13:37\" \n" +
+                    "To state the obvious: replace eventid with the actual id! \n" +
+                    " \n" +
+                    "Examples: See list above.  \n" +
+                    "Description: Allows you to edit several information on the event with the given ID. Only the creator of the event can edit it. \n" +
+                    " \n" +
+                    "Delete event \n" +
+                    "Command: !deleteevent (or !dev)  \n" +
+                    "Parameters: eventID  \n" +
+                    "Examples: !dev 3  \n" +
+                    "Description: Deletes the event with the given ID. You can only delete an event that you created. ```";
+
+            //var channel = await Context.User.GetOrCreateDMChannelAsync();
+            await channel.SendMessageAsync(helptext);
+        }
+
+
+        [Command("help3")]
+        [Remarks("Shows a list of all available commands per module.")]
+        public async Task HelpAsync3()
         {
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync(); /* A channel is created so that the commands will be privately sent to the user, and not flood the chat. */
 
@@ -79,7 +157,7 @@ namespace Warthog.Classes
         //
         [Command("help2")]
         [Remarks("Shows what a specific command does and what parameters it takes.")]
-        public async Task HelpAsync(string command)
+        public async Task HelpAsync3(string command)
         {
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync();
             var result = _service.Search(Context, command);

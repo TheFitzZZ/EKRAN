@@ -24,10 +24,10 @@ Cheers m8!
 **Description:** Gives a compact list of upcoming events for your server.
 
 #### Show event details 
-**Command:** !calendar (!cal)\
-**Parameters:**  none\
-**Examples:** !calendar\
-**Description:** Gives a more compact list of upcoming events for your server.
+**Command:** !event (!cev)\
+**Parameters:**  eventID\
+**Examples:** !event 5\
+**Description:** Gives all details about the event given.
 
 #### Attend event
 **Command:** !attend \

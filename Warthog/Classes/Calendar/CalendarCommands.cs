@@ -90,7 +90,7 @@ namespace Warthog.Classes
                 string helptext = "You can add more details to the event if you like:\n\n" +
                                   "\nAdd a max attendee limit: !editev *eventid* **maxattendees** 15" +
                                   "\nAdd a URL to a briefing: !editev *eventid* **briefingurl** http://someurl.com/briefing" +
-                                  "\nAdd a URL to a Discord invite: !editev *eventid* **discordurl** http://discord.gg/yourinviteid \n" +
+                                  "\nAdd a URL to a Discord invite: !editev *eventid* **discordurl** http://disc0rd.gg/yourinviteid \n" +
                                   @"Add a short description to the event: !editev *eventid* **description** ""Description goes here""" +
                                   "\nToggle public flag of the event: !editev *eventid* **public**" +
                                   "\n" + @"Edit the event name: !editev *eventid* **name** ""My Eventname""" +
@@ -450,7 +450,7 @@ namespace Warthog.Classes
                 //await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
                 foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
                 {
-                    if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
+                    if (Event.Active & (Context.Guild.Id == Event.EventGuild & (Event.EventDate.Date >= DateTime.UtcNow.Date) | Event.PublicEvent))
                     {
                         string sType = null;
                         if (Event.PublicEvent) { sType = "Public"; }
@@ -480,7 +480,7 @@ namespace Warthog.Classes
 
                         embed.Title = "Event information";
 
-                        string sEmbedDescription = $"Event Date: **{Event.EventDate.ToUniversalTime()} UTC**\n";
+                        string sEmbedDescription = $"Event Date: **{Event.EventDate} UTC**\n";
                         //sEmbedDescription += $"Attendees: **{sAttendees}**\n";
 
                         if (Event.MaxAttendees == 0)
@@ -500,13 +500,13 @@ namespace Warthog.Classes
                         await ReplyAsync("", false, embed.Build());
                     }
                 }
-                await ReplyAsync("You can get more information on an event by using !event *eventid*");
+                await ReplyAsync("``You can get more information on an event by using !event *eventid*``");
             }
         }
 
         [Command("event")]
         [Alias("ev")]
-        [Summary("Lists all events")]
+        [Summary("List details of one event")]
         public async Task Event(long iID)
         {
             //await ReplyAsync("There are " + CalendarXMLManagement.arrEvents.Count + " events in the file.");
@@ -563,7 +563,7 @@ namespace Warthog.Classes
 
                             embed.Title = "Event information";
 
-                            string sEmbedDescription = $"Event Date: **{Event.EventDate.ToUniversalTime()} UTC**\n";
+                            string sEmbedDescription = $"Event Date: **{Event.EventDate} UTC**\n";
                             //sEmbedDescription += $"Attendees: **{sAttendees}**\n";
 
                             if (Event.MaxAttendees == 0)
@@ -633,7 +633,7 @@ namespace Warthog.Classes
 
                 foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
                 {
-                    if (Event.Active & (Context.Guild.Id == Event.EventGuild | Event.PublicEvent))
+                    if (Event.Active & (Context.Guild.Id == Event.EventGuild & (Event.EventDate.Date >= DateTime.UtcNow.Date) | Event.PublicEvent))
                     {
                         string sType = null;
                         if (Event.PublicEvent) { sType = "Public"; }

@@ -53,7 +53,7 @@ namespace Warthog.Classes
             else if (Context.Guild == null) 
             {
                 //Text was send by DM, not supported
-                string helptext = "Please use this command in a text channel of your server, not via DM.";
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -113,6 +113,13 @@ namespace Warthog.Classes
                 //Not enough data given, send user info on how to use this
                 string helptext = "Not enough parameters! Please use !help to... well, get help!";
                 
+                await channel.SendMessageAsync(helptext);
+            }
+            else if (Context.Guild == null)
+            {
+                //Text was send by DM, not supported
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
+
                 await channel.SendMessageAsync(helptext);
             }
             else
@@ -249,7 +256,7 @@ namespace Warthog.Classes
             else if (Context.Guild == null)
             {
                 //Text was send by DM, not supported
-                string helptext = "Please use this command in a text channel of your server, not via DM.";
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -307,7 +314,7 @@ namespace Warthog.Classes
             else if (Context.Guild == null)
             {
                 //Text was send by DM, not supported
-                string helptext = "Please use this command in a text channel of your server, not via DM.";
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -385,7 +392,7 @@ namespace Warthog.Classes
             else if (Context.Guild == null)
             {
                 //Text was send by DM, not supported
-                string helptext = "Please use this command in a text channel of your server, not via DM.";
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -440,7 +447,7 @@ namespace Warthog.Classes
             if (Context.Guild == null)
             {
                 //Text was send by DM, not supported
-                string helptext = "Please use this command in a text channel of your server, not via DM.";
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -522,7 +529,7 @@ namespace Warthog.Classes
             else if (Context.Guild == null)
             {
                 //Text was send by DM, not supported
-                string helptext = "Please use this command in a text channel of your server, not via DM.";
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);
@@ -602,7 +609,7 @@ namespace Warthog.Classes
             if (Context.Guild == null)
             {
                 //Text was send by DM, not supported
-                string helptext = "Please use this command in a text channel of your server, not via DM.";
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
 
                 var channel = await Context.User.GetOrCreateDMChannelAsync();
                 await channel.SendMessageAsync(helptext);

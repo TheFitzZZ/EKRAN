@@ -15,6 +15,10 @@ DOGE:
 
 Cheers m8!
 
+## Setup
+
+After the bot joined your server, create a server role named "Calendar Admin" and add users to it that are supposed to be able to edit every entry created on that server.
+
 ## Commands for users
 
 #### Show event calendar

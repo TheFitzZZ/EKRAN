@@ -115,20 +115,15 @@ namespace Warthog.Classes
                 
                 await channel.SendMessageAsync(helptext);
             }
-            //else if (Context.Guild == null)
-            //{
-            //    //Text was send by DM, not supported
-            //    string helptext = "Please use this command in a text channel of your server, not via DM.";
-
-            //    await channel.SendMessageAsync(helptext);
-            //}
             else
             {
                 foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
                 {
                     if (Event.EventID == iID)
                     {
-                        if (!Event.EventCreator.Equals(Context.User.Id))
+                        var user = Context.User as SocketGuildUser;
+                        var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Calendar Admin");
+                        if (!user.Roles.Contains(role) | !Event.EventCreator.Equals(Context.User.Id))
                         {
                             // Secrurity check
                             await ReplyAsync("This is not your event, you cannot edit it!");
@@ -268,7 +263,9 @@ namespace Warthog.Classes
                         // Check if the source of the request comes from the same server as the event was created
                         if (Event.EventGuild == Context.Guild.Id)
                         {
-                            if (!Event.EventCreator.Equals(Context.User.Id))
+                            var user = Context.User as SocketGuildUser;
+                            var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Calendar Admin");
+                            if (!user.Roles.Contains(role) & !Event.EventCreator.Equals(Context.User.Id))
                             {
                                 // Secrurity check
                                 await ReplyAsync("This is not your event, you cannot delete it!");

@@ -329,6 +329,24 @@ namespace Warthog.Classes
             await ReplyAsync(user.Username + "#" + user.Discriminator);
         }
 
+        [Command("testrole")]
+        [Summary("tests if you have the role needed to exec that command")]
+        public async Task Say21()
+        {
+            var user = Context.User as SocketGuildUser;
+            var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Calendar Admin");
+            if (user.Roles.Contains(role))
+            {
+                await ReplyAsync("You can do that!");
+            }
+            else
+            {
+                await ReplyAsync("You can't do that!");
+            }
+        }
+
+
+
         [Command("Deleteme")]
         [Alias("deleteme", "del")]
         [Summary("Deletes the message of the user")]

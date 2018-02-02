@@ -345,7 +345,24 @@ namespace Warthog.Classes
             }
         }
 
+        [Command("testdmrole")]
+        [Summary("tests if you have the role needed to exec a command and are on the respective server")]
+        public async Task Say221()
+        {
+            //vars to be filled later
+            var guild = 386541111067263498;
 
+            var user = Context.User as SocketGuildUser;
+            var role = (user as IGuildUser).Guild.Roles.FirstOrDefault(x => x.Name == "Calendar Admin");
+            if (user.Roles.Contains(role))
+            {
+                await ReplyAsync("You can do that!");
+            }
+            else
+            {
+                await ReplyAsync("You can't do that!");
+            }
+        }
 
         [Command("Deleteme")]
         [Alias("deleteme", "del")]

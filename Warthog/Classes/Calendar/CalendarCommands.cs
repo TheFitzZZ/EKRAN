@@ -66,7 +66,9 @@ namespace Warthog.Classes
                 //bool bPublic = false;
                 //if (sPublic != "") { bPublic = true; }
 
+#pragma warning disable IDE0017 // Simplify object initialization
                 CalendarEvent newevent = new CalendarEvent();
+#pragma warning restore IDE0017 // Simplify object initialization
                 newevent.EventID = XMLIntIncrementer.XMLIntIncrement.CalendarEvent;
                 newevent.Active = true;
                 newevent.Eventname = sEventName;

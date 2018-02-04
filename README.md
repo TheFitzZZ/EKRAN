@@ -4,6 +4,9 @@
 
 This Discord bot tries to provide an easy platform to manage and announce events. It is made for the game DCS World and will probably get features over time that don't make sense for other games. See the milestone list for features that are planned. Feed free to create issues to get help or request changes & features.
 
+## Get the bot
+
+To have the Bot join your Discord server simply click [here](https://discordapp.com/oauth2/authorize?client_id=396040373652291592&scope=bot).
 
 ### Donations:
 If you want to support my work or just leave a little thanks, I'd appreciate a small donation towards my coffee fund :-) 

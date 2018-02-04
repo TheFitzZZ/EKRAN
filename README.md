@@ -5,13 +5,19 @@
 This Discord bot tries to provide an easy platform to manage and announce events. It is made for the game DCS World and will probably get features over time that don't make sense for other games. See the milestone list for features that are planned. Feed free to create issues to get help or request changes & features.
 
 
-## Donations
+### Donations:
+If you want to support my work or just leave a little thanks, I'd appreciate a small donation towards my coffee fund :-) 
 
-If you and/or your community gets use out of it, any donations are super welcome. It'll pay for the coffee destroyed in the process writing this :-)
-
-ETH:
-LTC:
-DOGE:
+I have the following options:
+- Donorbox: https://donorbox.org/dcs-cm
+- Crypto:
+  - BTC: 1KtsAMGCkJPv3R8fa2zCxznB3PhdSPDf9d
+  - ETH: 0x4c336e3ea18756bef54d9d022a5788352304dbed
+  - LTC: LZaWAVX35qsiYyG7VVvpwg7n9browvm3Kw
+  - DASH: XxZjETznyPVwxM3z1fN315pHioFgqzZ3Gr
+  - ZEC: t1eZGC319q5HSEPrDQ7Uzr88kxChbfTH1Ke
+  - DOGE: DDq5ChkLt82pRYimKPRibdeWuYMQShYKdk
+  - BCH: 1Ci8ZRUXzUbqjyYj2y7m5CdJAtcjF9MF4L 
 
 Cheers m8!
 

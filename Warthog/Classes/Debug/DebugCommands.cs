@@ -419,6 +419,7 @@ namespace Warthog.Classes
                 return;
             }
             await Context.Message.DeleteAsync();
+
             var GuildUser = await Context.Guild.GetUserAsync(Context.User.Id);
             if (!GuildUser.GetPermissions(Context.Channel as ITextChannel).ManageMessages)
             {
@@ -434,7 +435,12 @@ namespace Warthog.Classes
             {
 
                 Amount++;
-                await Item.DeleteAsync();
+                Console.WriteLine(Item.Author.Username);
+                if(Item.Author.Username == "Fred-Lagz")
+                {
+                    await Item.DeleteAsync();
+                }
+
 
             }
             await Context.Channel.SendMessageAsync($"`{Context.User.Username} deleted {Amount} messages`");

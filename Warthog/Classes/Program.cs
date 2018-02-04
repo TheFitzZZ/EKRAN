@@ -32,7 +32,7 @@ namespace Warthog
             client.Log += Logger;
             await client.LoginAsync(TokenType.Bot, BotConfig.Load().Token);
             await client.StartAsync();
-
+            
             var serviceProvider = ConfigureServices();
             handler = new CommandHandler(serviceProvider);
             await handler.ConfigureAsync();

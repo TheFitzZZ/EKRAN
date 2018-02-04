@@ -102,13 +102,14 @@ namespace Warthog.Classes
         [Alias("angryekran")]
         public async Task Angrywatchekran(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
+
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
 
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsync(audioClient, @"Soundeffects\watchekranloud.mp3");
             await audioClient.StopAsync();
 
@@ -118,6 +119,7 @@ namespace Warthog.Classes
         [Alias("ekran")]
         public async Task Ekran(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
@@ -125,7 +127,6 @@ namespace Warthog.Classes
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
 
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsync(audioClient, @"Soundeffects\watchekran.mp3");
             await audioClient.StopAsync();
 
@@ -134,13 +135,13 @@ namespace Warthog.Classes
         [Command("lowergear", RunMode = RunMode.Async)]
         public async Task Lowergear(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
 
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsync(audioClient, @"Soundeffects\lowergear.mp3");
             await audioClient.StopAsync();
 
@@ -149,13 +150,13 @@ namespace Warthog.Classes
         [Command("Nopermission", RunMode = RunMode.Async)]
         public async Task Nopermission(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
 
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsync(audioClient, @"Soundeffects\Nopermission.mp3");
             await audioClient.StopAsync();
 
@@ -164,13 +165,13 @@ namespace Warthog.Classes
         [Command("Receivedata", RunMode = RunMode.Async)]
         public async Task Receivedata(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
 
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsync(audioClient, @"Soundeffects\Receivedata.mp3");
             await audioClient.StopAsync();
 
@@ -179,13 +180,13 @@ namespace Warthog.Classes
         [Command("Systemsfailure", RunMode = RunMode.Async)]
         public async Task Systemsfailure(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
 
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsync(audioClient, @"Soundeffects\Systemsfailure.mp3");
             await audioClient.StopAsync();
 
@@ -194,13 +195,13 @@ namespace Warthog.Classes
         [Command("Transfercomplete", RunMode = RunMode.Async)]
         public async Task Transfercomplete(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
 
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsync(audioClient, @"Soundeffects\Transfercomplete.mp3");
             await audioClient.StopAsync();
         }
@@ -208,13 +209,13 @@ namespace Warthog.Classes
         [Command("PlayYT", RunMode = RunMode.Async)]
         public async Task Yttest(string VideoURL, IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
 
             // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
             var audioClient = await channel.ConnectAsync();
-            await DeleteCommandMessage();
             await SendAsyncYT(audioClient, VideoURL);
             await audioClient.StopAsync();
         }
@@ -222,6 +223,7 @@ namespace Warthog.Classes
         [Command("stop", RunMode = RunMode.Async)]
         public async Task Stop(IVoiceChannel channel = null)
         {
+            await DeleteCommandMessage();
             //// Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
             if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
@@ -229,7 +231,22 @@ namespace Warthog.Classes
             var audioClient = await channel.ConnectAsync();
 
             await audioClient.StopAsync();
+        }
+
+        [Command("wep")]
+        public async Task Wep()
+        {
             await DeleteCommandMessage();
+
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                //await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
+
+            await ReplyAsync("https://cdn.discordapp.com/attachments/182225129680404480/409384412602433546/unknown.png");
+
         }
     }
 }

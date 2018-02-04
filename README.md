@@ -1,17 +1,31 @@
-# Warthog
+# EKRAN
+You better watch it!
 
 ## Description
 
 This Discord bot tries to provide an easy platform to manage and announce events. It is made for the game DCS World and will probably get features over time that don't make sense for other games. See the milestone list for features that are planned. Feed free to create issues to get help or request changes & features.
 
+## Get the bot
 
-## Donations
+To have the Bot join your Discord server simply click [here](https://discordapp.com/oauth2/authorize?client_id=396040373652291592&scope=bot).
 
-If you and/or your community gets use out of it, any donations are super welcome. It'll pay for the coffee destroyed in the process writing this :-)
+### Donations:
+If you want to support my work or just leave a little thanks, I'd appreciate a small donation towards my coffee fund :-) 
 
-ETH:
-LTC:
-DOGE:
+I have the following options:
+- Donorbox: https://donorbox.org/dcs-cm (for PayPal and CC)
+- Crypto:
+  - BTC: 1KtsAMGCkJPv3R8fa2zCxznB3PhdSPDf9d
+  - ETH: 0x4c336e3ea18756bef54d9d022a5788352304dbed
+  - LTC: LZaWAVX35qsiYyG7VVvpwg7n9browvm3Kw
+  - DASH: XxZjETznyPVwxM3z1fN315pHioFgqzZ3Gr
+  - ZEC: t1eZGC319q5HSEPrDQ7Uzr88kxChbfTH1Ke
+  - DOGE: DDq5ChkLt82pRYimKPRibdeWuYMQShYKdk
+  - BCH: 1Ci8ZRUXzUbqjyYj2y7m5CdJAtcjF9MF4L 
+
+Wanna get into crypto:
+- [Coinbase](https://www.coinbase.com/join/5a383d1dada1050742ff705a) to buy cypto (one of the most popular methods)
+- [Binance](https://www.binance.com/?ref=16671900) is my preferred exchange to trade stuff ... if you wanna dive in :-)
 
 Cheers m8!
 

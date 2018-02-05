@@ -47,7 +47,7 @@ namespace Warthog.Classes
             {
                 
                 //Console.WriteLine(Item.Author.Id + " " + Item.Author.Username + " " + Item.Content);
-                if (Item.Author.Id == 184405311681986560)
+                if (Item.Author.Id == 184405311681986560 || Item.Content.StartsWith(";;"))
                 {
                     //Console.WriteLine("Trying to delete message...");
                     await Item.DeleteAsync();

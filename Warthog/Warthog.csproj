@@ -146,14 +146,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\AudioModule.cs" />
-    <Compile Include="Classes\AudioService.cs" />
-    <Compile Include="Classes\BaseCommands.cs" />
+    <Compile Include="Classes\Commandhandler\BaseCommands.cs" />
     <Compile Include="Classes\Calendar\CalendarCommands.cs" />
     <Compile Include="Classes\Calendar\CalendarEvent.cs" />
     <Compile Include="Classes\Calendar\CalendarXMLManagement.cs" />
-    <Compile Include="Classes\CommandHandler.cs" />
+    <Compile Include="Classes\Commandhandler\CommandHandler.cs" />
     <Compile Include="Classes\Config.cs" />
+    <Compile Include="Classes\DCSUpdateScraper\DCSUpdateScraper.cs" />
     <Compile Include="Classes\Helper\XMLIntIncrementer.cs" />
     <Compile Include="Classes\Helper\XMLIntIncrementerClass.cs" />
     <Compile Include="Classes\Debug\DebugCommands.cs" />

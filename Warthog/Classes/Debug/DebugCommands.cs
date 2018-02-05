@@ -436,14 +436,29 @@ namespace Warthog.Classes
 
                 Amount++;
                 Console.WriteLine(Item.Author.Username);
-                if(Item.Author.Username == "Fred-Lagz")
+                if (Item.Author.Username == "Fred-Lagz")
                 {
                     await Item.DeleteAsync();
                 }
 
 
             }
-            await Context.Channel.SendMessageAsync($"`{Context.User.Username} deleted {Amount} messages`");
+            //await Context.Channel.SendMessageAsync($"`{Context.User.Username} deleted {Amount} messages`");
+        }
+
+        [Command("purge", RunMode = RunMode.Async)]
+        [Summary("Deletes the specified amount of messages.")]
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        public async Task PurgeChat(uint amount)
+        {
+            var messages = await this.Context.Channel.GetMessagesAsync((int)amount + 1).Flatten();
+
+            await this.Context.Channel.DeleteMessagesAsync(messages);
+            const int delay = 5000;
+            var m = await this.ReplyAsync($"Purge completed. _This message will be deleted in {delay / 1000} seconds._");
+            await Task.Delay(delay);
+            await m.DeleteAsync();
         }
 
         [Command("ServerInfo")]

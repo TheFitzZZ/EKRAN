@@ -35,36 +35,32 @@ namespace Warthog.Classes
         //
         // Random commands
         //
-        [Command("cleanfred")]
-        public async Task Clear([Remainder] int Delete = 100)
+        [Command("cleanfred", RunMode = RunMode.Async)]
+        [Summary("Deletes the specified amount of messages.")]
+        //[RequireUserPermission(GuildPermission.Administrator)]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        public async Task Cleanfred(uint amount = 100)
         {
-            IGuildUser Bot = await Context.Guild.GetUserAsync(Context.Client.CurrentUser.Id);
-            if (!Bot.GetPermissions(Context.Channel as ITextChannel).ManageMessages)
+            var messages = await this.Context.Channel.GetMessagesAsync((int)amount + 1).Flatten();
+            Console.WriteLine(DateTime.UtcNow + " " + Context.User.Username + "ran the purge command for FredBoat");
+            foreach (var Item in messages)
             {
-                await Context.Channel.SendMessageAsync("`Bot does not have enough permissions to manage messages`");
-                return;
-            }
-            await Context.Message.DeleteAsync();
-
-
-            if (Delete == 0)
-            {
-                await Context.Channel.SendMessageAsync("`You need to specify the amount | !clear (amount) | Replace (amount) with anything`");
-            }
-            int Amount = 0;
-            foreach (var Item in await Context.Channel.GetMessagesAsync(Delete).Flatten())
-            {
-
-                Amount++;
-                Console.WriteLine(Item.Author.Username);
-                if (Item.Author.Username == "Fred-Lagz")
+                
+                //Console.WriteLine(Item.Author.Id + " " + Item.Author.Username + " " + Item.Content);
+                if (Item.Author.Id == 184405311681986560)
                 {
+                    //Console.WriteLine("Trying to delete message...");
                     await Item.DeleteAsync();
                 }
 
 
             }
-            await Context.Channel.SendMessageAsync($"`{Context.User.Username} deleted {Amount} messages`");
+            //await this.Context.Channel.DeleteMessagesAsync(messages);
+            const int delay = 5000;
+            var m = await this.ReplyAsync($"Purge completed. _This message will be deleted in {delay / 1000} seconds._");
+            await Task.Delay(delay);
+            await m.DeleteAsync();
+            await Context.Message.DeleteAsync();
         }
 
         //

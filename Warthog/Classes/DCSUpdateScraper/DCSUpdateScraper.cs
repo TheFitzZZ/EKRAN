@@ -8,6 +8,10 @@ namespace Warthog.Classes
 {
     class DCSUpdateScraper
     {
+        public void GetUpdatePage()
+        {
+            HtmlAgilityPack.HtmlWeb web = new HtmlAgilityPack.HtmlWeb();
 
+        }
     }
 }

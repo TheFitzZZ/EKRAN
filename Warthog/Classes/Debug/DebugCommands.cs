@@ -509,7 +509,7 @@ namespace Warthog.Classes
                 return;
             }
 
-            Warthog.Classes.DCSUpdateScraper.GetUpdatePage();
+            Warthog.Classes.DCSUpdateScraper.CheckDCSUpdate();
 
             await ReplyAsync("Pong!");
         }

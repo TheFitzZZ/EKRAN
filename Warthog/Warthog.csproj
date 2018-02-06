@@ -162,6 +162,8 @@
     <Compile Include="Classes\Commandhandler\CommandHandler.cs" />
     <Compile Include="Classes\Config.cs" />
     <Compile Include="Classes\DCSUpdateScraper\DCSUpdateScraper.cs" />
+    <Compile Include="Classes\DCSUpdateScraper\DCSVersion.cs" />
+    <Compile Include="Classes\DCSUpdateScraper\DCSVersionXMLManagement.cs" />
     <Compile Include="Classes\Helper\XMLIntIncrementer.cs" />
     <Compile Include="Classes\Helper\XMLIntIncrementerClass.cs" />
     <Compile Include="Classes\Debug\DebugCommands.cs" />

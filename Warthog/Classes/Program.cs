@@ -23,6 +23,7 @@ namespace Warthog
 
             Warthog.Classes.CalendarXMLManagement.CalendarReadXML(); // Load current events
             Warthog.Classes.XMLIntIncrementer.InitializeIndexXML(); // Load current indexs
+            Warthog.Classes.DCSUpdateScraper.InitializeDCSVersionXML(); //Load current DCS Versions
 
             client = new DiscordSocketClient(new DiscordSocketConfig()
             {

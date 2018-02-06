@@ -64,6 +64,15 @@ namespace Warthog.Classes
         }
 
         //
+        // DCS Update Commands / Functions
+        //
+        public async Task AnnounceDCSUpdate()
+        {
+            var channel = await Context.Guild.GetChannelAsync(386545965374373898) as SocketTextChannel;
+            await channel.SendMessageAsync("Update text");
+        }
+
+        //
         // Actual help commands
         //
         [Command("help")]

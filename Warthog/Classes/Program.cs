@@ -36,6 +36,9 @@ namespace Warthog
             var serviceProvider = ConfigureServices();
             handler = new CommandHandler(serviceProvider);
             await handler.ConfigureAsync();
+
+            //Debug calls
+            
   
             //Block this program untill it is closed
             await Task.Delay(-1);

@@ -496,6 +496,22 @@ namespace Warthog.Classes
             embedBuilder.Description = $"Server Owner: **{O}\n**Voice Region: **{V}\n**Created At: **{C}\n**MsgNtfc: **{N}\n**Verification: **{VL}\n**Role Count: **{XD}\n **Members: **{X}\n **Conntection state: **{Z}\n\n**";
             await ReplyAsync("", false, embedBuilder);
         }
-      
+
+
+        [Command("update")]
+        [Summary("Returns a update")]
+        public async Task Htmltest()
+        {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
+
+            Warthog.Classes.DCSUpdateScraper.GetUpdatePage();
+
+            await ReplyAsync("Pong!");
+        }
     }
 }

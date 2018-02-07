@@ -6,6 +6,7 @@ using Discord.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
 using Warthog.Config;
+using System.Threading;
 
 namespace Warthog
 {
@@ -37,16 +38,36 @@ namespace Warthog
             var serviceProvider = ConfigureServices();
             handler = new CommandHandler(serviceProvider);
             await handler.ConfigureAsync();
+            
 
             //Debug calls
-            
-  
+
+            ////Timer stuff
+            //Set up the timer for chaning the playing message
+            timerPlayMsg = new System.Threading.Timer(ChangeReadyEvent, null, 0, 20000);
+            //Set up the timer for DCS Update checks
+            timerDCSUpdate = new System.Threading.Timer(CheckDCSUpdates, null, 0, 30000);
+
             //Block this program untill it is closed
             await Task.Delay(-1);
         }
 
-    
+        // Set up all timers
+        private System.Threading.Timer timerPlayMsg;
+        private System.Threading.Timer timerDCSUpdate;
 
+        private async void ChangeReadyEvent(object state)
+        {
+            await handler.ReadyEvent();
+        }
+
+        private void CheckDCSUpdates(object state)
+        {
+            Thread t = new Thread(Classes.DCSUpdateScraper.CheckDCSUpdate);
+            t.Start();
+        }
+
+        // Logging
         private static Task Logger(LogMessage lmsg)
         {
             var cc = Console.ForegroundColor;
@@ -72,6 +93,7 @@ namespace Warthog
             return Task.CompletedTask;
         }
         
+        // Configuration
         public static void EnsureBotConfigExists()
         {
             if (!Directory.Exists(Path.Combine(AppContext.BaseDirectory, "configuration")))
@@ -91,7 +113,8 @@ namespace Warthog
                 config.Prefix = "!";
                 config.Save();                                  // Save the new configuration object to file.
             }
-            Console.WriteLine("Configuration has been loaded");
+            Console.WriteLine($"{DateTime.Now} [Info] Configuration: Cfg has been loaded.");
+
         }
         
         public IServiceProvider ConfigureServices()

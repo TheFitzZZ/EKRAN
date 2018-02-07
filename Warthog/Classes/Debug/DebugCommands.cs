@@ -223,6 +223,26 @@ namespace Warthog.Classes
             await channel.SendMessageAsync("Woops");
         }
 
+        const ulong serverId = 386545514067263498; // the id of your server
+        const ulong channelId = 386545965374373898; // the id of the channel
+
+        [Command("Tellchanserv")]
+        [Summary("returns said sentence!")]
+        public async Task Say86()
+        {
+            if (119019602574442497 != Context.User.Id)
+            {
+                // Secrurity check
+                await ReplyAsync("This is a debug command, you cannot use it!");
+                return;
+            }
+            //var server = awai
+
+            //await ((ISocketMessageChannel)client.GetChannel(channelID)).SendMessageAsync("");
+            var channel = await Context.Guild.GetChannelAsync(386545965374373898) as SocketTextChannel;
+            await channel.SendMessageAsync("Woops");
+        }
+
         [Command("Sendmevirus")]
         [Alias("sendmevirus")]
         [Summary("returns viruz lulz!")]

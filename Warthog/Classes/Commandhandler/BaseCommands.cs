@@ -32,9 +32,47 @@ namespace Warthog.Classes
             await Context.Message.DeleteAsync();
         }
 
+        const ulong serverId = 386545514067263498; // the id of your server
+        const ulong channelId = 386545965374373898; // the id of the channel
+
+        //Server findServer(ulong id)
+        //{
+        //    foreach (Server server in discord.Servers) // discord is your DiscorClient instance
+        //    {
+        //        if (server.Id == serverId)
+        //            return server;
+        //    }
+        //    return null;
+        //}
+
+        //Channel findTextChannel(Server server, ulong id)
+        //{
+        //    foreach (Channel channel in server.TextChannels)
+        //    {
+        //        if (channel.Id == channelId)
+        //            return channel;
+        //    }
+        //    return null;
+        //}
+
+        //private Channel channel;
+        //private System.Threading.Timer timer;
+
+        //void load()
+        //{
+        //    Server server = findServer(serverId);
+        //    if (server != null)
+        //    {
+        //        channel = findTextChannel(server, channelId);
+        //        if (channel != null)
+        //            timer = new System.Threading.Timer(send, null, 0, 1000 * 60 * 60 * 24); // 24 hour interval
+        //    }
+        //}
+
         //
         // Random commands
         //
+
         [Command("cleanfred", RunMode = RunMode.Async)]
         [Summary("Deletes the specified amount of messages.")]
         //[RequireUserPermission(GuildPermission.Administrator)]
@@ -42,18 +80,14 @@ namespace Warthog.Classes
         public async Task Cleanfred(uint amount = 100)
         {
             var messages = await this.Context.Channel.GetMessagesAsync((int)amount + 1).Flatten();
-            Console.WriteLine(DateTime.UtcNow + " " + Context.User.Username + "ran the purge command for FredBoat");
+            Console.WriteLine($"{DateTime.Now} [Audit] Purge: {Context.User.Username} ran the purge command for FredBoat");
             foreach (var Item in messages)
-            {
-                
+            {                
                 //Console.WriteLine(Item.Author.Id + " " + Item.Author.Username + " " + Item.Content);
                 if (Item.Author.Id == 184405311681986560 || Item.Content.StartsWith(";;"))
                 {
-                    //Console.WriteLine("Trying to delete message...");
                     await Item.DeleteAsync();
                 }
-
-
             }
             //await this.Context.Channel.DeleteMessagesAsync(messages);
             const int delay = 5000;

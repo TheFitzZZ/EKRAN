@@ -11,7 +11,7 @@ namespace Warthog
     public class CommandHandler
     {
         private CommandService commands;
-        private DiscordSocketClient bot;
+        public DiscordSocketClient bot;
         private IServiceProvider map;
 
         public CommandHandler(IServiceProvider provider)
@@ -26,13 +26,31 @@ namespace Warthog
             commands = map.GetService<CommandService>();
         }
 
+        //Build the "playing" messagelist to run through
+        private string[] arrPlayingMessages = { "календарь!", "!help for commands", "https://git.io/vAfVk", "Watch Ekran!" };
+        private int iPlayingMessages = 0;
+
         //Set the "playing..." message
         public async Task ReadyEvent()
         {
-            await bot.SetGameAsync("календарь!");
+            //await bot.SetGameAsync("календарь!");
+
+            if(iPlayingMessages < arrPlayingMessages.Length)
+            {
+                //Console.WriteLine("Changing to " + iPlayingMessages.ToString());
+                await bot.SetGameAsync(arrPlayingMessages[iPlayingMessages]);
+                iPlayingMessages++;
+            }
+            else
+            {
+                //Console.WriteLine("Changing to 0");
+                iPlayingMessages = 0;
+                await bot.SetGameAsync(arrPlayingMessages[iPlayingMessages]);
+            }
         }
 
         
+
         public async Task AnnounceLeftUser(SocketGuildUser user)
         {
             var thumbnailurl = user.GetAvatarUrl();

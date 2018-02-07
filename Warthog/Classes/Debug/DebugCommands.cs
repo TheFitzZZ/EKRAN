@@ -470,7 +470,7 @@ namespace Warthog.Classes
         [Summary("Deletes the specified amount of messages.")]
         [RequireUserPermission(GuildPermission.Administrator)]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
-        public async Task PurgeChat(uint amount)
+        public async Task PurgeChat(uint amount, int userid, int channelid)
         {
             var messages = await this.Context.Channel.GetMessagesAsync((int)amount + 1).Flatten();
 
@@ -531,7 +531,7 @@ namespace Warthog.Classes
 
             Warthog.Classes.DCSUpdateScraper.CheckDCSUpdate();
 
-            await ReplyAsync("Pong!");
+            //await ReplyAsync("Pong!");
         }
     }
 }

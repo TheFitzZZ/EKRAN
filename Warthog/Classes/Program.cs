@@ -46,7 +46,7 @@ namespace Warthog
             //Set up the timer for chaning the playing message
             timerPlayMsg = new System.Threading.Timer(ChangeReadyEvent, null, 0, 20000);
             //Set up the timer for DCS Update checks
-            timerDCSUpdate = new System.Threading.Timer(CheckDCSUpdates, null, 0, 30000);
+            timerDCSUpdate = new System.Threading.Timer(CheckDCSUpdates, null, 0, 60000 * 10);
 
             //Block this program untill it is closed
             await Task.Delay(-1);

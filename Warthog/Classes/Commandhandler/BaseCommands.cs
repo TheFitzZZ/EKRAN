@@ -32,47 +32,7 @@ namespace Warthog.Classes
             await Context.Message.DeleteAsync();
         }
 
-        const ulong serverId = 386545514067263498; // the id of your server
-        const ulong channelId = 386545965374373898; // the id of the channel
-
-        //Server findServer(ulong id)
-        //{
-        //    foreach (Server server in discord.Servers) // discord is your DiscorClient instance
-        //    {
-        //        if (server.Id == serverId)
-        //            return server;
-        //    }
-        //    return null;
-        //}
-
-        //Channel findTextChannel(Server server, ulong id)
-        //{
-        //    foreach (Channel channel in server.TextChannels)
-        //    {
-        //        if (channel.Id == channelId)
-        //            return channel;
-        //    }
-        //    return null;
-        //}
-
-        //private Channel channel;
-        //private System.Threading.Timer timer;
-
-        //void load()
-        //{
-        //    Server server = findServer(serverId);
-        //    if (server != null)
-        //    {
-        //        channel = findTextChannel(server, channelId);
-        //        if (channel != null)
-        //            timer = new System.Threading.Timer(send, null, 0, 1000 * 60 * 60 * 24); // 24 hour interval
-        //    }
-        //}
-
-        //
-        // Random commands
-        //
-
+ 
         [Command("cleanfred", RunMode = RunMode.Async)]
         [Summary("Deletes the specified amount of messages.")]
         //[RequireUserPermission(GuildPermission.Administrator)]
@@ -97,14 +57,14 @@ namespace Warthog.Classes
             await Context.Message.DeleteAsync();
         }
 
-        //
-        // DCS Update Commands / Functions
-        //
-        public async Task AnnounceDCSUpdate()
-        {
-            var channel = await Context.Guild.GetChannelAsync(386545965374373898) as SocketTextChannel;
-            await channel.SendMessageAsync("Update text");
-        }
+        ////
+        //// DCS Update Commands / Functions
+        ////
+        //public async Task AnnounceDCSUpdate()
+        //{
+        //    var channel = await Context.Guild.GetChannelAsync(386545965374373898) as SocketTextChannel;
+        //    await channel.SendMessageAsync("Update text");
+        //}
 
         //
         // Actual help commands

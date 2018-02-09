@@ -103,6 +103,7 @@ namespace Warthog.Classes
         public async Task Angrywatchekran(IVoiceChannel channel = null)
         {
             await DeleteCommandMessage();
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
 
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -119,6 +120,8 @@ namespace Warthog.Classes
         [Alias("ekran")]
         public async Task Ekran(IVoiceChannel channel = null)
         {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
             await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -135,6 +138,8 @@ namespace Warthog.Classes
         [Command("lowergear", RunMode = RunMode.Async)]
         public async Task Lowergear(IVoiceChannel channel = null)
         {
+
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
             await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -150,6 +155,8 @@ namespace Warthog.Classes
         [Command("Nopermission", RunMode = RunMode.Async)]
         public async Task Nopermission(IVoiceChannel channel = null)
         {
+
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
             await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -165,6 +172,8 @@ namespace Warthog.Classes
         [Command("Receivedata", RunMode = RunMode.Async)]
         public async Task Receivedata(IVoiceChannel channel = null)
         {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
             await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -180,6 +189,8 @@ namespace Warthog.Classes
         [Command("Systemsfailure", RunMode = RunMode.Async)]
         public async Task Systemsfailure(IVoiceChannel channel = null)
         {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
             await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -195,6 +206,8 @@ namespace Warthog.Classes
         [Command("Transfercomplete", RunMode = RunMode.Async)]
         public async Task Transfercomplete(IVoiceChannel channel = null)
         {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
             await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -206,9 +219,59 @@ namespace Warthog.Classes
             await audioClient.StopAsync();
         }
 
+        [Command("ussr", RunMode = RunMode.Async)]
+        public async Task Ussr(IVoiceChannel channel = null)
+        {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
+            await DeleteCommandMessage();
+            // Get the audio channel
+            channel = (Context.User as IVoiceState).VoiceChannel;
+            if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
+
+            // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
+            var audioClient = await channel.ConnectAsync();
+            await SendAsync(audioClient, @"Soundeffects\AnthemofUSSR.mp3");
+            await audioClient.StopAsync();
+        }
+
+        [Command("usa", RunMode = RunMode.Async)]
+        public async Task USA(IVoiceChannel channel = null)
+        {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
+            await DeleteCommandMessage();
+            // Get the audio channel
+            channel = (Context.User as IVoiceState).VoiceChannel;
+            if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
+
+            // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
+            var audioClient = await channel.ConnectAsync();
+            await SendAsync(audioClient, @"Soundeffects\Americafuckyeah.mp3");
+            await audioClient.StopAsync();
+        }
+
+        [Command("chumdrum", RunMode = RunMode.Async)]
+        public async Task Chumdrum(IVoiceChannel channel = null)
+        {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
+            await DeleteCommandMessage();
+            // Get the audio channel
+            channel = (Context.User as IVoiceState).VoiceChannel;
+            if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
+
+            // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
+            var audioClient = await channel.ConnectAsync();
+            await SendAsync(audioClient, @"Soundeffects\ChumDrum.mp3");
+            await audioClient.StopAsync();
+        }
+
         [Command("PlayYT", RunMode = RunMode.Async)]
         public async Task Yttest(string VideoURL, IVoiceChannel channel = null)
         {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran the YouTube command.");
+
             await DeleteCommandMessage();
             // Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -223,6 +286,8 @@ namespace Warthog.Classes
         [Command("stop", RunMode = RunMode.Async)]
         public async Task Stop(IVoiceChannel channel = null)
         {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran the sound stop command.");
+
             await DeleteCommandMessage();
             //// Get the audio channel
             channel = (Context.User as IVoiceState).VoiceChannel;
@@ -236,6 +301,8 @@ namespace Warthog.Classes
         [Command("wep")]
         public async Task Wep()
         {
+
+            Console.WriteLine($"{DateTime.Now} [Audit] Pictures: {Context.User.Username} ran a picture command.");
             await DeleteCommandMessage();
 
             if (119019602574442497 != Context.User.Id)

@@ -179,6 +179,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Classes\temp stuff.txt" />
+    <None Include="Soundeffects\Americafuckyeah.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Soundeffects\AnthemofUSSR.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Soundeffects\ChumDrum.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="youtube-dl.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

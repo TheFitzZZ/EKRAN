@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
-using Fizzler.Systems.HtmlAgilityPack;
 using Discord.WebSocket;
 using Discord.Commands;
 using Discord;
+using HtmlAgilityPack;
 
 namespace Warthog.Classes
 {
@@ -62,9 +56,7 @@ namespace Warthog.Classes
         }
 
         public static void CheckDCSUpdate()
-        {
-            Console.WriteLine($"{DateTime.Now} [Scheduler] DCS Update Check: Running DCS Update checker.");
-            
+        {            
             //get the page
             var web = new HtmlWeb();
             var document = web.Load("http://updates.digitalcombatsimulator.com");

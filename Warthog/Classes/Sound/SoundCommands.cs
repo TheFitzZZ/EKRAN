@@ -267,6 +267,22 @@ namespace Warthog.Classes
             await audioClient.StopAsync();
         }
 
+        [Command("uk", RunMode = RunMode.Async)]
+        public async Task Uk(IVoiceChannel channel = null)
+        {
+            Console.WriteLine($"{DateTime.Now} [Audit] Sound: {Context.User.Username} ran a sound command.");
+
+            await DeleteCommandMessage();
+            // Get the audio channel
+            channel = (Context.User as IVoiceState).VoiceChannel;
+            if (channel == null) { await Context.User.SendMessageAsync("User must be in a voice channel."); return; }
+
+            // For the next step with transmitting audio, you would want to pass this Audio Client in to a service.
+            var audioClient = await channel.ConnectAsync();
+            await SendAsync(audioClient, @"Soundeffects\ukanthem.mp3");
+            await audioClient.StopAsync();
+        }
+
         [Command("PlayYT", RunMode = RunMode.Async)]
         public async Task Yttest(string VideoURL, IVoiceChannel channel = null)
         {

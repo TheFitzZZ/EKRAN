@@ -179,6 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Classes\temp stuff.txt" />
+    <None Include="Soundeffects\ukanthem.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Soundeffects\Americafuckyeah.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -66,9 +66,7 @@ namespace Warthog.Classes
                 //bool bPublic = false;
                 //if (sPublic != "") { bPublic = true; }
 
-#pragma warning disable IDE0017 // Simplify object initialization
                 CalendarEvent newevent = new CalendarEvent();
-#pragma warning restore IDE0017 // Simplify object initialization
                 newevent.EventID = XMLIntIncrementer.XMLIntIncrement.CalendarEvent;
                 newevent.Active = true;
                 newevent.Eventname = sEventName;
@@ -673,6 +671,42 @@ namespace Warthog.Classes
 
                 await ReplyAsync("", false, MyEmbedBuilder);
             }
+        }
+
+
+        [Command("announce")]
+        [Alias("ae")]
+        [Summary("Announces an event in a given channel!")]
+        public async Task AnnounceEvent(long iID = 0, IGuildChannel TargetChannel = null)
+        {
+            if (iID == 0 | TargetChannel == null)
+            {
+                //Not enough data given, send user info on how to use this
+                string helptext = "Not enough parameters! Please state the ID of the event to announce with the channel to annpunce it in! \nExample: \n!ae 1337 #events";
+
+                var dmchannel = await Context.User.GetOrCreateDMChannelAsync();
+                await dmchannel.SendMessageAsync(helptext);
+            }
+            else if (Context.Guild == null)
+            {
+                //Text was send by DM, not supported
+                string helptext = "Please use this command in a text channel of your server, not via DM. This will be fixed in a later release.";
+
+                var dmchannel = await Context.User.GetOrCreateDMChannelAsync();
+                await dmchannel.SendMessageAsync(helptext);
+            }
+            else
+            {
+                foreach (CalendarEvent Event in CalendarXMLManagement.arrEvents)
+                {
+                    if (Event.EventID == iID)
+                    {
+                        //THings happen
+                    }
+                }
+            }
+            var channel = await Context.Guild.GetChannelAsync(386545965374373898) as SocketTextChannel;
+            await channel.SendMessageAsync("Woops");
         }
     }
 }

@@ -223,8 +223,8 @@ namespace Warthog.Classes
             await channel.SendMessageAsync("Woops");
         }
 
-        const ulong serverId = 386545514067263498; // the id of your server
-        const ulong channelId = 386545965374373898; // the id of the channel
+        //const ulong serverId = 386545514067263498; // the id of your server
+        //const ulong channelId = 386545965374373898; // the id of the channel
 
         [Command("Tellchanserv")]
         [Summary("returns said sentence!")]

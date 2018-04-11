@@ -72,16 +72,16 @@ namespace Warthog.Classes
             html = html.Substring(a + 20);
             string beta = html.Substring(0, html.IndexOf("</h2>")); //<h2>Current openbeta is 2.5.0.13818.311</h2>
 
-            a = html.IndexOf("current openalpha is");
-            html = html.Substring(a + 21);
-            string alpha = html.Substring(0, html.IndexOf("</h2>"));  // <h2>Current openalpha is 2.2.0.12843.297</h2>
+            //a = html.IndexOf("current openalpha is");
+            //html = html.Substring(a + 21);
+            //string alpha = html.Substring(0, html.IndexOf("</h2>"));  // <h2>Current openalpha is 2.2.0.12843.297</h2>
             
             var stableverold = new Version(stable.Substring(2));
             var stablevernew = new Version(DCSVersionXMLManagement.arrDCSVersions.Stable.Substring(2));
             var betaverold = new Version(beta.Substring(2));
             var betavernew = new Version(DCSVersionXMLManagement.arrDCSVersions.Beta.Substring(2));
-            var alphaverold = new Version(alpha.Substring(2));
-            var alphavernew = new Version(DCSVersionXMLManagement.arrDCSVersions.Alpha.Substring(2));
+            //var alphaverold = new Version(alpha.Substring(2));
+            //var alphavernew = new Version(DCSVersionXMLManagement.arrDCSVersions.Alpha.Substring(2));
 
             var channel = Program.client.GetChannel(243566610953011210) as SocketTextChannel;
 
@@ -121,21 +121,21 @@ namespace Warthog.Classes
                     Console.WriteLine($"{DateTime.Now} [Scheduler] DCS Update Check: Update beta found, announced!");
                 }
 
-                if (alphavernew.CompareTo(alphaverold) != 0)
-                {
-                    //Calc days since update
-                    iDays = Math.Floor((DateTime.UtcNow - DCSVersionXMLManagement.arrDCSVersions.AlphaDate).TotalDays);
+                //if (alphavernew.CompareTo(alphaverold) != 0)
+                //{
+                //    //Calc days since update
+                //    iDays = Math.Floor((DateTime.UtcNow - DCSVersionXMLManagement.arrDCSVersions.AlphaDate).TotalDays);
                   
-                    //Write data to xml
-                    DCSVersionXMLManagement.arrDCSVersions.Alpha = alpha;
-                    DCSVersionXMLManagement.arrDCSVersions.AlphaDate = DateTime.UtcNow;
+                //    //Write data to xml
+                //    DCSVersionXMLManagement.arrDCSVersions.Alpha = alpha;
+                //    DCSVersionXMLManagement.arrDCSVersions.AlphaDate = DateTime.UtcNow;
                    
-                    //Announce in channel
-                    channel.SendMessageAsync("", false, BuildEmbed("alpha", iDays, alpha));
+                //    //Announce in channel
+                //    channel.SendMessageAsync("", false, BuildEmbed("alpha", iDays, alpha));
 
-                    //Log in console
-                    Console.WriteLine($"{DateTime.Now} [Scheduler] DCS Update Check: Update alpha found, announced!");
-                }
+                //    //Log in console
+                //    Console.WriteLine($"{DateTime.Now} [Scheduler] DCS Update Check: Update alpha found, announced!");
+                //}
             }
 
             DCSVersionXMLManagement.DCSVersionWriteXML();

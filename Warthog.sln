@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warthog", "Warthog\Warthog.csproj", "{A1423840-7B8E-425E-892E-2DE2D4B38BBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WarthogTests", "WarthogTests\WarthogTests.csproj", "{C063F9B9-B1B2-4D25-855E-8D7F9B3CDD67}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A1423840-7B8E-425E-892E-2DE2D4B38BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1423840-7B8E-425E-892E-2DE2D4B38BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1423840-7B8E-425E-892E-2DE2D4B38BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C063F9B9-B1B2-4D25-855E-8D7F9B3CDD67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C063F9B9-B1B2-4D25-855E-8D7F9B3CDD67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C063F9B9-B1B2-4D25-855E-8D7F9B3CDD67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C063F9B9-B1B2-4D25-855E-8D7F9B3CDD67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

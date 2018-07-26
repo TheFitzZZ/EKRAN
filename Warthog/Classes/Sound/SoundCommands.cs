@@ -8,6 +8,7 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Audio;
 using System.Diagnostics;
+using Warthog.Classes.Sound;
 
 namespace Warthog.Classes
 {
@@ -56,10 +57,14 @@ namespace Warthog.Classes
         {
             Process currentsong = new Process();
 
+            //clean up the links... youtube-dl barfs if any get parameters except the v=[videoid] parameter are present
+
+            var cleanUrl = YoutubeVideoLinkScrubber.GetCleanWatchUrlFromFromUrl(url);
+
             currentsong.StartInfo = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                Arguments = $"/C youtube-dl.exe -o - {url} | ffmpeg -i pipe:0 -ac 2 -f s16le -ar 48000 pipe:1",
+                Arguments = $"/C youtube-dl.exe -o - {cleanUrl} | ffmpeg -i pipe:0 -ac 2 -f s16le -ar 48000 pipe:1",
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true
@@ -97,6 +102,8 @@ namespace Warthog.Classes
         ///
         /// Sound commands
         /// 
+
+        #region EKRAN audio stuff
 
         [Command("angrywatchekran", RunMode = RunMode.Async)]
         [Alias("angryekran")]
@@ -282,6 +289,8 @@ namespace Warthog.Classes
             await SendAsync(audioClient, @"Soundeffects\ukanthem.mp3");
             await audioClient.StopAsync();
         }
+        #endregion EKRAN audio stuff
+
 
         [Command("PlayYT", RunMode = RunMode.Async)]
         public async Task Yttest(string VideoURL, IVoiceChannel channel = null)
@@ -320,14 +329,14 @@ namespace Warthog.Classes
 
             Console.WriteLine($"{DateTime.Now} [Audit] Pictures: {Context.User.Username} ran a picture command.");
             await DeleteCommandMessage();
-
+            
             if (119019602574442497 != Context.User.Id)
             {
                 // Secrurity check
                 //await ReplyAsync("This is a debug command, you cannot use it!");
                 return;
             }
-
+            
             await ReplyAsync("https://cdn.discordapp.com/attachments/182225129680404480/409384412602433546/unknown.png");
 
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Discord.Commands;
 using Discord;
 using Discord.WebSocket;
+using Warthog.Config;
 
 namespace Warthog.Classes
 {
@@ -153,7 +154,7 @@ namespace Warthog.Classes
         {
             var dmChannel = await Context.User.GetOrCreateDMChannelAsync(); /* A channel is created so that the commands will be privately sent to the user, and not flood the chat. */
 
-            string prefix = "!";  /* put your chosen prefix here */
+            string prefix = BotConfig.Load().Prefix; /* put your chosen prefix here */
             var builder = new EmbedBuilder()
             {
                 Color = new Color(114, 137, 218),

@@ -96,7 +96,7 @@ namespace Warthog
             //Mark where the prefix ends and the command begins
             int argPos = 0;
             //Determine if the message has a valid prefix, adjust argPos
-            if (message.HasStringPrefix("!", ref argPos))
+            if (message.HasStringPrefix(Config.BotConfig.Load().Prefix, ref argPos))
             {
                 if (message.Author.IsBot)
                     return;

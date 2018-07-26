@@ -44,7 +44,7 @@ namespace Warthog
 
             ////Timer stuff
             //Set up the timer for chaning the playing message
-            timerPlayMsg = new System.Threading.Timer(ChangeReadyEvent, null, 0, 20000);
+             timerPlayMsg = new System.Threading.Timer(ChangeReadyEvent, null, 0, 20000);
             //Set up the timer for DCS Update checks
             timerDCSUpdate = new System.Threading.Timer(CheckDCSUpdates, null, 0, 60000 * 10);
 
@@ -107,10 +107,14 @@ namespace Warthog
                 Console.WriteLine("Please enter the following information to save into your configuration/config.json file");
                 //Console.Write("Bot Token: ");
                 //config.Token = Console.ReadLine();              // Read the bot token from console.
-                config.Token = Secrets.DiscordBotToken;
+
+
+                config.Token = BotConfig.Load().Token; // //Secrets.DiscordBotToken;
                 Console.Write("Bot Prefix: ");
+
+
                 //config.Prefix = Console.ReadLine();              // Read the bot prefix from console.
-                config.Prefix = "!";
+                config.Prefix = Config.BotConfig.Load().Prefix;
                 config.Save();                                  // Save the new configuration object to file.
             }
             Console.WriteLine($"{DateTime.Now} [Info] Configuration: Cfg has been loaded.");

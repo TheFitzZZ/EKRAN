@@ -22,6 +22,8 @@ namespace Warthog.Config
             string file = Path.Combine(appdir, dir);
             File.WriteAllText(file, ToJson());
         }
+
+        //TODO: load this once and use it. Don't have the caller call Load all the time
         public static BotConfig Load(string dir = "configuration\\config.json")
         {
             string file = Path.Combine(appdir, dir);

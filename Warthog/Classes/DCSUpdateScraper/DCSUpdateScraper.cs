@@ -84,10 +84,12 @@ namespace Warthog.Classes
             //var alphavernew = new Version(DCSVersionXMLManagement.arrDCSVersions.Alpha.Substring(2));
 
             var channel = Program.client.GetChannel(243566610953011210) as SocketTextChannel;
+            var channel_bottest = Program.client.GetChannel(392450582868262912) as SocketTextChannel;
+            //var channel_wildcats = Program.client.GetChannel(327118586063749120) as SocketTextChannel;
 
             double iDays = 0;
 
-            if (channel != null ) //& (1 == 2)
+            if (channel != null || channel_bottest != null) //& (1 == 2)
             {
                 if (stablevernew.CompareTo(stableverold) != 0)
                 {
@@ -97,9 +99,10 @@ namespace Warthog.Classes
                     //Write data to xml
                     DCSVersionXMLManagement.arrDCSVersions.Stable = stable;
                     DCSVersionXMLManagement.arrDCSVersions.StableDate = DateTime.UtcNow;
-                    
+
                     //Announce in channel
-                    channel.SendMessageAsync("", false, BuildEmbed("stable", iDays, stable));
+                    if (channel != null) { channel.SendMessageAsync("", false, BuildEmbed("stable", iDays, stable)); }
+                    if (channel_bottest != null) { channel_bottest.SendMessageAsync("", false, BuildEmbed("stable", iDays, stable)); }
 
                     //Log in console
                     Console.WriteLine($"{DateTime.Now} [Scheduler] DCS Update Check: Update stable found, announced!");
@@ -113,9 +116,10 @@ namespace Warthog.Classes
                     //Write data to xml
                     DCSVersionXMLManagement.arrDCSVersions.Beta = beta;
                     DCSVersionXMLManagement.arrDCSVersions.BetaDate = DateTime.UtcNow;
-                  
+
                     //Announce in channel
-                    channel.SendMessageAsync("", false, BuildEmbed("beta", iDays, beta));
+                    if (channel != null) { channel.SendMessageAsync("", false, BuildEmbed("beta", iDays, beta)); }
+                    if (channel_bottest != null) { channel_bottest.SendMessageAsync("", false, BuildEmbed("beta", iDays, beta)); }
 
                     //Log in console
                     Console.WriteLine($"{DateTime.Now} [Scheduler] DCS Update Check: Update beta found, announced!");
